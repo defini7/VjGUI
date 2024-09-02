@@ -6,10 +6,14 @@ namespace def::gui
 {
 	struct Theme
 	{
+		Colour ApplyLight(const Colour& colour) const;
+
 		Colour border;
 		Colour componentBackground;
 		Colour panelBackground;
 		Colour text;
 		Colour titleBar;
+
+		float focusedLightFactor;
 	};
 }

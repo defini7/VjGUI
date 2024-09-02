@@ -6,6 +6,7 @@
 #include "gui_component.hpp"
 #include "gui_utils.hpp"
 #include "gui_panel.hpp"
+#include "gui_eventhandler.hpp"
 
 namespace def::gui
 {

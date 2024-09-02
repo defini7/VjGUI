@@ -31,12 +31,34 @@ namespace def::gui
 
 	void Label::Update(Platform* platform)
 	{
+		auto HandleEvent = GetEventHandler();
+
+		if (!HandleEvent)
+			return;
+
+		Vector2i mousePos = platform->GetMousePosition();
+
+		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
+		{
+			HandleEvent(this, { Event::Type::Mouse_Hover });
+			m_EnableLight = true;
+		}
+		else
+			m_EnableLight = false;
 	}
 
 	void Label::Draw(Platform* platform, const Theme& theme) const
 	{
-		platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
-		platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+		if (m_EnableLight)
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.componentBackground));
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.border));
+		}
+		else
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+		}
 
 		for (size_t i = 0; i < m_TextSplitted.size(); i++)
 		{
@@ -45,7 +67,10 @@ namespace def::gui
 			Vector2i pos = m_GlobalPosition + unit.offset;
 			pos.y += 8 * i;
 
-			platform->DrawText(pos, unit.text, theme.text);
+			if (m_EnableLight)
+				platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
+			else
+				platform->DrawText(pos, unit.text, theme.text);
 		}
 	}
 

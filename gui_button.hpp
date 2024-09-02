@@ -1,11 +1,10 @@
 #pragma once
 
 #include "gui_label.hpp"
-#include "gui_eventhandler.hpp"
 
 namespace def::gui
 {
-	class Button : public Label, public EventHandler<Button>
+	class Button : public Label
 	{
 	public:
 		Button(Panel* parent = nullptr);

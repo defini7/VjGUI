@@ -21,8 +21,10 @@ public:
 	def::gui::Button* button;
 
 protected:
-	static void Event_Button(def::gui::Button* button, const def::gui::Event& event)
+	static void Event_Button(def::gui::Component* component, const def::gui::Event& event)
 	{
+		def::gui::Button* button = (def::gui::Button*)component;
+
 		switch (event.type)
 		{
 		/*case def::gui::Event::Type::Mouse_Hover:
@@ -30,27 +32,36 @@ protected:
 			break;*/
 
 		case def::gui::Event::Type::Mouse_Pressed:
-			std::cout << "Button was pressed!" << std::endl;
+			std::cout << "Button " << button->GetText() << " was pressed!" << std::endl;
 			break;
 
 		case def::gui::Event::Type::Mouse_Held:
-			std::cout << "Button was held!" << std::endl;
+			std::cout << "Button " << button->GetText() << " was held!" << std::endl;
 			break;
 
 		case def::gui::Event::Type::Mouse_Released:
-			std::cout << "Button was released!" << std::endl;
+			std::cout << "Button " << button->GetText() << " was released!" << std::endl;
 			break;
 
 		}
 	}
 
+	static void Event_Label(def::gui::Component* component, const def::gui::Event& event)
+	{
+		def::gui::Label* label = (def::gui::Label*)component;
+
+		if (event.type == def::gui::Event::Type::Mouse_Hover)
+			std::cout << "Label " << label->GetText() << " was hovered!" << std::endl;
+	}
+
 	bool OnUserCreate() override
 	{
 		theme.panelBackground = { 0, 55, 150 };
-		theme.componentBackground = { 0, 0, 255 };
+		theme.componentBackground = { 0, 0, 125 };
 		theme.titleBar = { 200, 200, 200 };
-		theme.border = { 255, 255, 255 };
-		theme.text = { 255, 255, 0 };
+		theme.border = { 200, 200, 200 };
+		theme.text = { 200, 200, 0 };
+		theme.focusedLightFactor = 1.5f;
 
 		platform_DGE = new def::gui::Platform_defGameEngine(this);
 		manager = new def::gui::Manager(platform_DGE);
@@ -61,6 +72,7 @@ protected:
 		button = new def::gui::Button(panel, "Click me!", { 20, 100 }, { 30, 1 });
 
 		button->SetEventHandler(Event_Button);
+		label->SetEventHandler(Event_Label);
 
 		return true;
 	}

@@ -19,13 +19,16 @@ namespace def::gui
 	{
 		auto HandleEvent = GetEventHandler();
 
+		if (!HandleEvent)
+			return;
+
 		Vector2i mousePos = platform->GetMousePosition();
 		ButtonState mouse_leftButtonState = platform->GetMouseButton(0);
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
 			HandleEvent(this, { Event::Type::Mouse_Hover });
-			
+
 			Event mouseEvent;
 			mouseEvent.type = Event::Type::None;
 
@@ -38,7 +41,11 @@ namespace def::gui
 
 			if (mouseEvent.type != Event::Type::None)
 				HandleEvent(this, mouseEvent);
+
+			m_EnableLight = true;
 		}
+		else
+			m_EnableLight = false;
 	}
 
 	void Button::Draw(Platform* platform, const Theme& theme) const

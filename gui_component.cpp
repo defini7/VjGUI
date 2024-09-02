@@ -3,13 +3,13 @@
 
 namespace def::gui
 {
-	Component::Component(Panel* parent)
+	Component::Component(Panel* parent) : m_EnableLight(false)
 	{
 		if (parent)
 			parent->AddComponent(this);
 	}
 
-	Component::Component(Panel* parent, const Vector2i& pos)
+	Component::Component(Panel* parent, const Vector2i& pos) : m_EnableLight(false)
 	{
 		if (parent)
 			parent->AddComponent(this);

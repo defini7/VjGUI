@@ -3,12 +3,13 @@
 #include "gui_utils.hpp"
 #include "gui_platform.hpp"
 #include "gui_theme.hpp"
+#include "gui_eventhandler.hpp"
 
 namespace def::gui
 {
 	class Panel;
 
-	class Component
+	class Component : public EventHandler<Component>
 	{
 	public:
 		Component(Panel* parent = nullptr);
@@ -38,6 +39,8 @@ namespace def::gui
 		Panel* m_Parent;
 
 		Align m_Align;
+
+		bool m_EnableLight;
 
 	};
 }

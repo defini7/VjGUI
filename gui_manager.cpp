@@ -20,6 +20,8 @@ namespace def::gui
 	{
 		for (auto& panel : m_Panels)
 		{
+			panel.Update(m_Platform);
+
 			auto components = panel.GetComponents();
 
 			for (auto& component : components)

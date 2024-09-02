@@ -3,12 +3,12 @@
 
 namespace def::gui
 {
-	Panel::Panel()
+	Panel::Panel() : m_Drag(false)
 	{
 	}
 
 	Panel::Panel(const std::string& title, const Vector2i& pos, const Vector2i& size)
-		: m_Title(title), m_Position(pos), m_Size(size)
+		: m_Title(title), m_Position(pos), m_Size(size), m_Drag(false)
 	{
 	}
 
@@ -49,6 +49,39 @@ namespace def::gui
 	void Panel::SetSize(const Vector2i& size)
 	{
 		m_Size = size;
+	}
+
+	void Panel::Update(Platform* platform)
+	{
+		Vector2i mousePos = platform->GetMousePosition();
+		ButtonState mouseState = platform->GetMouseButton(0);
+
+		if (IsPointInRect(mousePos, m_Position, m_Size))
+		{
+			auto HandleEvent = GetEventHandler();
+
+			if (HandleEvent)
+				HandleEvent(this, { Event::Type::Mouse_Hover });
+
+			if (mouseState.pressed)
+			{
+				// TODO: Make title bar size constant
+				if (IsPointInRect(mousePos, m_Position, Vector2i(m_Size.x, 20)))
+				{
+					m_Drag = true;
+					m_DragOffset = mousePos - m_Position;
+				}
+			}
+		}
+
+		if (m_Drag)
+			m_Position = mousePos - m_DragOffset;
+
+		if (mouseState.released)
+			m_Drag = false;
+
+		for (auto& component : GetComponents())
+			component->UpdatePosition();
 	}
 
 	void Panel::Draw(Platform* platform, const Theme& theme) const

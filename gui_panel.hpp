@@ -5,12 +5,13 @@
 
 #include "gui_platform.hpp"
 #include "gui_theme.hpp"
+#include "gui_eventhandler.hpp"
 
 namespace def::gui
 {
 	class Component;
 
-	class Panel
+	class Panel : public EventHandler<Panel>
 	{
 	public:
 		Panel();
@@ -38,6 +39,7 @@ namespace def::gui
 			return component;
 		}
 
+		void Update(Platform* platform);
 		void Draw(Platform* platform, const Theme& theme) const;
 
 	private:
@@ -47,6 +49,10 @@ namespace def::gui
 		
 		Vector2i m_Position;
 		Vector2i m_Size;
+
+		bool m_Drag;
+
+		Vector2i m_DragOffset;
 
 	};
 }

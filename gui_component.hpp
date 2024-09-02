@@ -22,6 +22,7 @@ namespace def::gui
 
 		Vector2i GetPosition() const;
 		void SetPosition(const Vector2i& pos);
+		void UpdatePosition();
 
 		Panel* GetParent() const;
 		void SetParent(Panel* parent);

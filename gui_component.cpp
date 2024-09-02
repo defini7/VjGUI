@@ -45,6 +45,11 @@ namespace def::gui
 		m_GlobalPosition = m_Parent->GetPosition() + Vector2i(1, 20) + pos;
 	}
 
+	void Component::UpdatePosition()
+	{
+		m_GlobalPosition = m_Parent->GetPosition() + Vector2i(1, 20) + m_LocalPosition;
+	}
+
 	void Component::SetParent(Panel* parent)
 	{
 		m_Parent = parent;

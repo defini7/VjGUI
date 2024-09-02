@@ -31,17 +31,16 @@ namespace def::gui
 
 	void Label::Update(Platform* platform)
 	{
-		auto HandleEvent = GetEventHandler();
-
-		if (!HandleEvent)
-			return;
-
 		Vector2i mousePos = platform->GetMousePosition();
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			HandleEvent(this, { Event::Type::Mouse_Hover });
 			m_EnableLight = true;
+
+			auto HandleEvent = GetEventHandler();
+
+			if (HandleEvent)
+				HandleEvent(this, { Event::Type::Mouse_Hover });
 		}
 		else
 			m_EnableLight = false;

@@ -37,7 +37,7 @@ namespace def::gui
 		}
 		
 	private:
-		EventHandlerFunc<T> m_EventHandlerFunc;
+		EventHandlerFunc<T> m_EventHandlerFunc = nullptr;
 
 	};
 }

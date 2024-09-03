@@ -1,1 +1,1 @@
-# PROJ_GUI
+# defGUI (WIP!)

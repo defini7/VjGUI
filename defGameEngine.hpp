@@ -714,6 +714,8 @@ namespace def
 		bool IsConsoleEnabled() const;
 		void ClearCapturedText();
 		void ClearConsole();
+		
+		bool IsCaps() const;
 
 		void UseOnlyTextures(bool enable);
 
@@ -3460,6 +3462,11 @@ namespace def
 	{
 		m_PickedConsoleHistoryCommand = 0;
 		m_ConsoleHistory.clear();
+	}
+
+	bool GameEngine::IsCaps() const
+	{
+		return m_Caps;
 	}
 
 	bool GameEngine::IsCapturingText() const

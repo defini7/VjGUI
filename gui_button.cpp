@@ -15,37 +15,56 @@ namespace def::gui
 	{
 	}
 
-	void Button::Update(Platform* platform)
+	bool Button::Update(Platform* platform)
 	{
 		Vector2i mousePos = platform->GetMousePosition();
-		ButtonState mouse_leftButtonState = platform->GetMouseButton(0);
+		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
+
+		auto HandleEvent = GetEventHandler();
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			m_EnableLight = true;
+			if (HandleEvent)
+			{
+				HandleEvent(this, { Event::Type::Mouse_Hover });
 
-			auto HandleEvent = GetEventHandler();
+				if (mouse_leftButtonState.pressed)
+				{
+					m_IsFocused = true;
+					HandleEvent(this, { Event::Type::Component_Focused });
+				}
 
-			if (!HandleEvent)
-				return;
+				Event mouseEvent;
+				mouseEvent.type = Event::Type::None;
 
-			HandleEvent(this, { Event::Type::Mouse_Hover });
+				if (mouse_leftButtonState.pressed)
+					mouseEvent.type = Event::Type::Mouse_Pressed;
+				else if (mouse_leftButtonState.held)
+					mouseEvent.type = Event::Type::Mouse_Held;
+				else if (mouse_leftButtonState.released)
+				{
+					mouseEvent.type = Event::Type::Mouse_Released;
+					m_IsFocused = false;
 
-			Event mouseEvent;
-			mouseEvent.type = Event::Type::None;
+					HandleEvent(this, { Event::Type::Component_Unfocused });
+				}
 
-			if (mouse_leftButtonState.pressed)
-				mouseEvent.type = Event::Type::Mouse_Pressed;
-			else if (mouse_leftButtonState.held)
-				mouseEvent.type = Event::Type::Mouse_Held;
-			else if (mouse_leftButtonState.released)
-				mouseEvent.type = Event::Type::Mouse_Released;
+				if (mouseEvent.type != Event::Type::None)
+					HandleEvent(this, mouseEvent);
+			}
 
-			if (mouseEvent.type != Event::Type::None)
-				HandleEvent(this, mouseEvent);
+			return true;
 		}
 		else
-			m_EnableLight = false;
+		{
+			if (mouse_leftButtonState.pressed && m_IsFocused)
+			{
+				m_IsFocused = false;
+				HandleEvent(this, { Event::Type::Component_Unfocused });
+			}
+		}
+
+		return false;
 	}
 
 	void Button::Draw(Platform* platform, const Theme& theme) const

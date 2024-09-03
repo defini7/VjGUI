@@ -19,14 +19,7 @@ namespace def::gui
 	void Manager::Update()
 	{
 		for (auto& panel : m_Panels)
-		{
 			panel.Update(m_Platform);
-
-			auto components = panel.GetComponents();
-
-			for (auto& component : components)
-				component->Update(m_Platform);
-		}
 	}
 
 	void Manager::Draw(const Theme& theme)

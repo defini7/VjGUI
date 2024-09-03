@@ -54,7 +54,7 @@ namespace def::gui
 	void Panel::Update(Platform* platform)
 	{
 		Vector2i mousePos = platform->GetMousePosition();
-		ButtonState mouseState = platform->GetMouseButton(0);
+		HardwareButton mouseState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
 		if (IsPointInRect(mousePos, m_Position, m_Size))
 		{
@@ -80,8 +80,13 @@ namespace def::gui
 		if (mouseState.released)
 			m_Drag = false;
 
-		for (auto& component : GetComponents())
+		auto& components = GetComponents();
+
+		for (auto& component : components)
+		{
 			component->UpdatePosition();
+			component->m_EnableLight = component->Update(platform);
+		}
 	}
 
 	void Panel::Draw(Platform* platform, const Theme& theme) const

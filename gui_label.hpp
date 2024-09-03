@@ -18,12 +18,13 @@ namespace def::gui
 		virtual ~Label();
 
 		friend class Button;
+		friend class TextEntry;
 
 	public:
 		std::string GetText() const;
 		void SetText(const std::string& text);
 
-		void Update(Platform* platform) override;
+		bool Update(Platform* platform) override;
 		void Draw(Platform* platform, const Theme& theme) const override;
 
 		Vector2i GetSize() const;

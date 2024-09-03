@@ -147,6 +147,7 @@
     <ClCompile Include="gui_platform.cpp" />
     <ClCompile Include="gui_platform_defGameEngine.cpp" />
     <ClCompile Include="gui_label.cpp" />
+    <ClCompile Include="gui_textentry.cpp" />
     <ClCompile Include="gui_theme.cpp" />
     <ClCompile Include="gui_utils.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="gui_platform.hpp" />
     <ClInclude Include="gui_platform_defGameEngine.hpp" />
     <ClInclude Include="gui_label.hpp" />
+    <ClInclude Include="gui_textentry.hpp" />
     <ClInclude Include="gui_theme.hpp" />
     <ClInclude Include="gui_utils.hpp" />
   </ItemGroup>

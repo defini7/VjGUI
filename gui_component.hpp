@@ -16,8 +16,10 @@ namespace def::gui
 		Component(Panel* parent, const Vector2i& pos);
 		virtual ~Component();
 
+		friend class Panel;
+
 	public:
-		virtual void Update(Platform* platform);
+		virtual bool Update(Platform* platform);
 		virtual void Draw(Platform* platform, const Theme& theme) const;
 
 		Vector2i GetPosition() const;
@@ -42,6 +44,7 @@ namespace def::gui
 		Align m_Align;
 
 		bool m_EnableLight;
+		bool m_IsFocused;
 
 	};
 }

@@ -12,7 +12,10 @@ namespace def::gui
 			Mouse_Pressed,
 			Mouse_Held,
 			Mouse_Released,
-			Mouse_Hover
+			Mouse_Hover,
+			Component_Focused,
+			Component_Unfocused,
+			Component_Confirm
 		} type;
 
 		// TODO: Add more events and

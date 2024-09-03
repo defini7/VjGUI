@@ -3,13 +3,13 @@
 
 namespace def::gui
 {
-	Component::Component(Panel* parent) : m_EnableLight(false)
+	Component::Component(Panel* parent) : m_EnableLight(false), m_IsFocused(false)
 	{
 		if (parent)
 			parent->AddComponent(this);
 	}
 
-	Component::Component(Panel* parent, const Vector2i& pos) : m_EnableLight(false)
+	Component::Component(Panel* parent, const Vector2i& pos) : m_EnableLight(false), m_IsFocused(false)
 	{
 		if (parent)
 			parent->AddComponent(this);
@@ -22,9 +22,9 @@ namespace def::gui
 
 	}
 
-	void Component::Update(Platform* platform)
+	bool Component::Update(Platform* platform)
 	{
-
+		return false;
 	}
 
 	void Component::Draw(Platform* platform, const Theme& theme) const

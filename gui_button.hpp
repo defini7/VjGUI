@@ -12,7 +12,7 @@ namespace def::gui
 		virtual ~Button();
 
 	public:
-		void Update(Platform* platform) override;
+		bool Update(Platform* platform) override;
 		void Draw(Platform* platform, const Theme& theme) const override;
 
 	private:

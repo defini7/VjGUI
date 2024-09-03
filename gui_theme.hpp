@@ -13,6 +13,7 @@ namespace def::gui
 		Colour panelBackground;
 		Colour text;
 		Colour titleBar;
+		Colour cursor;
 
 		float focusedLightFactor;
 	};

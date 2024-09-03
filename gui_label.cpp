@@ -29,21 +29,38 @@ namespace def::gui
 		SetTextAlign(m_Align);
 	}
 
-	void Label::Update(Platform* platform)
+	bool Label::Update(Platform* platform)
 	{
 		Vector2i mousePos = platform->GetMousePosition();
+		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
+
+		auto HandleEvent = GetEventHandler();
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			m_EnableLight = true;
-
-			auto HandleEvent = GetEventHandler();
-
 			if (HandleEvent)
+			{
 				HandleEvent(this, { Event::Type::Mouse_Hover });
+
+				if (mouse_leftButtonState.pressed)
+				{
+					m_IsFocused = true;
+					HandleEvent(this, { Event::Type::Component_Focused });
+				}
+			}
+
+			return true;
 		}
 		else
-			m_EnableLight = false;
+		{
+			if (mouse_leftButtonState.pressed && m_IsFocused)
+			{
+				m_IsFocused = false;
+				HandleEvent(this, { Event::Type::Component_Unfocused });
+			}
+		}
+		
+		return false;
 	}
 
 	void Label::Draw(Platform* platform, const Theme& theme) const

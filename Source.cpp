@@ -9,64 +9,20 @@ public:
 	GUI_Testing()
 	{
 		SetTitle("Testing GUI");
+		UseOnlyTextures(true);
 	}
 
-	def::gui::Theme theme;
-
-	def::gui::Platform_defGameEngine* platform_DGE;
+	def::gui::Platform_defGameEngine* platform;
 	def::gui::Manager* manager;
-
 	def::gui::Panel* panel;
+
 	def::gui::Label* label;
 	def::gui::Button* button;
 	def::gui::TextEntry* textentry;
 
+	def::gui::Theme theme;
+
 protected:
-	static void Event_Button(def::gui::Component* component, const def::gui::Event& event)
-	{
-		def::gui::Button* button = (def::gui::Button*)component;
-
-		switch (event.type)
-		{
-		/*case def::gui::Event::Type::Mouse_Hover:
-			std::cout << "Button was hovered!" << std::endl;
-			break;*/
-
-		case def::gui::Event::Type::Mouse_Pressed:
-			std::cout << "Button was pressed!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Component_Focused:
-			std::cout << "Button entry was focused!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Component_Unfocused:
-			std::cout << "Button entry was unfocused!" << std::endl;
-			break;
-
-		}
-	}
-
-	static void Event_Label(def::gui::Component* component, const def::gui::Event& event)
-	{
-		def::gui::Label* label = (def::gui::Label*)component;
-
-		switch (event.type)
-		{
-		case def::gui::Event::Type::Component_Focused:
-			std::cout << "Text entry was focused!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Component_Unfocused:
-			std::cout << "Text entry was unfocused!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Mouse_Hover:
-			std::cout << "Label " << label->GetText() << " was hovered!" << std::endl;
-			break;
-		}
-	}
-
 	static void Event_TextEntry(def::gui::Component* component, const def::gui::Event& event)
 	{
 		def::gui::TextEntry* textentry = (def::gui::TextEntry*)component;
@@ -91,45 +47,35 @@ protected:
 	bool OnUserCreate() override
 	{
 		theme.panelBackground = { 0, 55, 150 };
-		theme.componentBackground = { 0, 0, 125 };
-		theme.titleBar = { 200, 200, 200 };
-		theme.border = { 200, 200, 200 };
+		theme.componentBackground = { 0, 0, 150 };
+		theme.titleBar = { 220, 220, 220 };
+		theme.border = { 220, 220, 200 };
 		theme.text = { 200, 200, 0 };
 		theme.cursor = { 200, 200, 200 };
+		theme.placeholder = { 100, 100, 0 };
 		theme.focusedLightFactor = 1.5f;
 
-		platform_DGE = new def::gui::Platform_defGameEngine(this);
-		manager = new def::gui::Manager(platform_DGE);
+		platform = new def::gui::Platform_defGameEngine(this);
+		manager = new def::gui::Manager(platform);
 
-		panel = manager->AddPanel("Some title", { 100, 100 }, { 800, 600 });
-		
-		label = new def::gui::Label(panel, "Some text\nAnd another text", { 20, 20 }, { 30, 2 });
-		button = new def::gui::Button(panel, "Click me!", { 20, 100 }, { 30, 1 });
-		textentry = new def::gui::TextEntry(panel, { 20, 180 }, { 20, 1 });
+		panel = manager->AddPanel("Some title", { 10, 10 }, { 500, 400 });
 
-		button->SetEventHandler(Event_Button);
-		label->SetEventHandler(Event_Label);
+		label = new def::gui::Label(panel, "some text", { 20, 20 }, { 30, 1 });
+		button = new def::gui::Button(panel, "click me!", { 20, 50 }, { 30, 1 });
+		textentry = new def::gui::TextEntry(panel, { 20, 80 }, { 20, 1 });
+
+		textentry->SetPlaceholder("Write something...");
+
 		textentry->SetEventHandler(Event_TextEntry);
-
-		textentry->SetPlaceholder("Write here...");
 
 		return true;
 	}
 
 	bool OnUserUpdate(float deltaTime) override
 	{
-		if (GetKey(def::Key::K1).pressed)
-			label->SetTextAlign(def::gui::Align::LEFT);
-
-		if (GetKey(def::Key::K2).pressed)
-			label->SetTextAlign(def::gui::Align::CENTRE);
-
-		if (GetKey(def::Key::K3).pressed)
-			label->SetTextAlign(def::gui::Align::RIGHT);
-
 		manager->Update();
 
-		Clear(def::BLACK);
+		ClearTexture(def::BLACK);
 		manager->Draw(theme);
 
 		return true;
@@ -140,7 +86,7 @@ int main()
 {
 	GUI_Testing app;
 
-	if (app.Construct(1280, 768, 1, 1))
+	if (app.Construct(1280, 720, 1, 1))
 		app.Run();
 
 	return 0;

@@ -1,5 +1,7 @@
 #include "gui_label.hpp"
 
+#include <iostream>
+
 namespace def::gui
 {
 	Label::Label(Panel* parent) : Component(parent)
@@ -7,7 +9,8 @@ namespace def::gui
 		SetTextAlign(Align::LEFT);
 	}
 
-	Label::Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size) : Component(parent, pos)
+	Label::Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
+		: Component(parent, pos)
 	{
 		m_Text = text;
 		SetTextAlign(Align::LEFT);
@@ -65,16 +68,8 @@ namespace def::gui
 
 	void Label::Draw(Platform* platform, const Theme& theme) const
 	{
-		if (m_EnableLight)
-		{
-			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.componentBackground));
-			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.border));
-		}
-		else
-		{
-			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
-			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
-		}
+		platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
+		platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
 
 		for (size_t i = 0; i < m_TextSplitted.size(); i++)
 		{
@@ -83,10 +78,7 @@ namespace def::gui
 			Vector2i pos = m_GlobalPosition + unit.offset;
 			pos.y += 8 * i;
 
-			if (m_EnableLight)
-				platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
-			else
-				platform->DrawText(pos, unit.text, theme.text);
+			platform->DrawText(pos, unit.text, theme.text);
 		}
 	}
 
@@ -109,15 +101,20 @@ namespace def::gui
 	void Label::SetTextAlign(Align align)
 	{
 		std::vector<std::string> lines;
-		size_t linesCount = 1;
+		size_t linesCount = 0;
 
 		if (m_Text.find('\n') == std::string::npos)
 		{
-			// No '\n' symbols so no new lines either
-			lines.push_back(m_Text);
+			if (!m_Text.empty())
+			{
+				lines.push_back(m_Text);
+				linesCount = 1;
+			}
 		}
 		else
 		{
+			linesCount = 1;
+
 			for (auto c : m_Text)
 			{
 				if (c == '\n')

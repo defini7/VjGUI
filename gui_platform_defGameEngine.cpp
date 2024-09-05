@@ -64,22 +64,22 @@ namespace def::gui
 
 	void Platform_defGameEngine::DrawRect(const Vector2i& pos, const Vector2i& size, const Colour& col)
 	{
-		m_Engine->DrawRectangle(pos.x, pos.y, size.x, size.y, ColourToPixel(col));
+		m_Engine->DrawTextureRectangle({ pos.x, pos.y }, { size.x, size.y }, ColourToPixel(col));
 	}
 
 	void Platform_defGameEngine::FillRect(const Vector2i& pos, const Vector2i& size, const Colour& col)
 	{
-		m_Engine->FillRectangle(pos.x, pos.y, size.x, size.y, ColourToPixel(col));
+		m_Engine->FillTextureRectangle({ pos.x, pos.y }, { size.x, size.y }, ColourToPixel(col));
 	}
 
 	void Platform_defGameEngine::DrawText(const Vector2i& pos, const std::string& text, const Colour& col)
 	{
-		m_Engine->DrawString(pos.x, pos.y, text, ColourToPixel(col));
+		m_Engine->DrawTextureString({ pos.x, pos.y }, text, ColourToPixel(col));
 	}
 
 	void Platform_defGameEngine::DrawLine(const Vector2i& pos1, const Vector2i& pos2, const Colour& col)
 	{
-		m_Engine->DrawLine(pos1.x, pos1.y, pos2.x, pos2.y, ColourToPixel(col));
+		m_Engine->DrawTextureLine({ pos1.x, pos1.y }, { pos2.x, pos2.y }, ColourToPixel(col));
 	}
 
 	Vector2i Platform_defGameEngine::GetMousePosition() const

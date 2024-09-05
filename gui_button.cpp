@@ -69,6 +69,28 @@ namespace def::gui
 
 	void Button::Draw(Platform* platform, const Theme& theme) const
 	{
-		Label::Draw(platform, theme);
+		if (m_EnableLight)
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.componentBackground));
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.border));
+		}
+		else
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+		}
+
+		for (size_t i = 0; i < m_TextSplitted.size(); i++)
+		{
+			auto& unit = m_TextSplitted[i];
+
+			Vector2i pos = m_GlobalPosition + unit.offset;
+			pos.y += 8 * i;
+
+			if (m_EnableLight)
+				platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
+			else
+				platform->DrawText(pos, unit.text, theme.text);
+		}
 	}
 }

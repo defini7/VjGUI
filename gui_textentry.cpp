@@ -65,13 +65,14 @@ namespace def::gui
 
 			bool isUp = platform->GetKey(KeyType::LEFT_SHIFT).held || platform->GetKey(KeyType::RIGHT_SHIFT).held;
 
-			for (const auto& [key, chars] : s_PickedKeyboard)
+			if (m_Text.size() < m_CharsSize.x)
 			{
-				if (platform->GetKey(key).pressed)
-				{
-					m_Text.insert(m_CursorPos, 1, (platform->IsCaps() || isUp) ? chars.second : chars.first);
-					m_CursorPos++;
-				}
+				for (const auto& [key, chars] : s_PickedKeyboard)
+					if (platform->GetKey(key).pressed)
+					{
+						m_Text.insert(m_CursorPos, 1, (platform->IsCaps() || isUp) ? chars.second : chars.first);
+						m_CursorPos++;
+					}
 			}
 
 			if (platform->GetKey(KeyType::BACKSPACE).pressed)
@@ -120,11 +121,45 @@ namespace def::gui
 
 	void TextEntry::Draw(Platform* platform, const Theme& theme) const
 	{
-		Label::Draw(platform, theme);
+		if (m_EnableLight)
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.componentBackground));
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.border));
+		}
+		else
+		{
+			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
+			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+		}
+
+		if (m_TextSplitted.empty())
+		{
+			Vector2i pos = m_GlobalPosition + 2;
+
+			if (m_EnableLight)
+				platform->DrawText(pos, m_Placeholder, theme.ApplyLight(theme.placeholder));
+			else
+				platform->DrawText(pos, m_Placeholder, theme.placeholder);
+		}
+		else
+		{
+			for (size_t i = 0; i < m_TextSplitted.size(); i++)
+			{
+				auto& unit = m_TextSplitted[i];
+
+				Vector2i pos = m_GlobalPosition + unit.offset;
+				pos.y += 8 * i;
+
+				if (m_EnableLight)
+					platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
+				else
+					platform->DrawText(pos, unit.text, theme.text);
+			}
+		}
 
 		if (m_IsFocused && m_Ticks >= CURSOR_HIDE_DELAY)
 		{
-			Vector2i cursor = { m_GlobalPosition.x + m_CursorPos * 8, m_GlobalPosition.y + 1 };
+			Vector2i cursor = { m_GlobalPosition.x + m_CursorPos * 8 + 2, m_GlobalPosition.y + 1 };
 
 			platform->DrawLine(cursor, { cursor.x, cursor.y + 8 }, theme.cursor);
 		}

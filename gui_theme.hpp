@@ -12,9 +12,11 @@ namespace def::gui
 		Colour componentBackground;
 		Colour panelBackground;
 		Colour text;
+		Colour placeholder;
 		Colour titleBar;
 		Colour cursor;
 
-		float focusedLightFactor;
+		float focusedLightFactor = 0.0f;
+		bool forceUsingPlaceholder = false;
 	};
 }

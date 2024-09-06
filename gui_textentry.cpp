@@ -31,31 +31,26 @@ namespace def::gui
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
-		auto HandleEvent = GetEventHandler();
-
 		bool light = false;
-
-		if (HandleEvent)
+		
+		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
+			HandleEvent(this, { Event::Type::Mouse_Hover });
+
+			if (mouse_leftButtonState.pressed)
 			{
-				HandleEvent(this, { Event::Type::Mouse_Hover });
-
-				if (mouse_leftButtonState.pressed)
-				{
-					HandleEvent(this, { Event::Type::Component_Focused });
-					m_IsFocused = true;
-				}
-
-				light = true;
+				HandleEvent(this, { Event::Type::Component_Focused });
+				m_IsFocused = true;
 			}
-			else
+
+			light = true;
+		}
+		else
+		{
+			if (mouse_leftButtonState.pressed && m_IsFocused)
 			{
-				if (mouse_leftButtonState.pressed && m_IsFocused)
-				{
-					m_IsFocused = false;
-					HandleEvent(this, { Event::Type::Component_Unfocused });
-				}
+				m_IsFocused = false;
+				HandleEvent(this, { Event::Type::Component_Unfocused });
 			}
 		}
 
@@ -103,12 +98,10 @@ namespace def::gui
 			}
 
 			if (platform->GetKey(KeyType::ENTER).pressed)
-			{
-				if (HandleEvent)
-					HandleEvent(this, { Event::Type::Component_Confirm });
-			}
+				HandleEvent(this, { Event::Type::Component_Confirm });
 
 			SetText(m_Text);
+			UpdateText();
 
 			if (m_Ticks < 2.0f * CURSOR_HIDE_DELAY)
 				m_Ticks += platform->GetDeltaTime();

@@ -19,29 +19,18 @@ public:
 	def::gui::Label* label;
 	def::gui::Button* button;
 	def::gui::TextEntry* textentry;
+	def::gui::List* list;
 
 	def::gui::Theme theme;
 
 protected:
-	static void Event_TextEntry(def::gui::Component* component, const def::gui::Event& event)
+	static void Event_Button(def::gui::Component* component, const def::gui::Event& event, void* userdata)
 	{
-		def::gui::TextEntry* textentry = (def::gui::TextEntry*)component;
+		def::gui::Button* button = static_cast<def::gui::Button*>(component);
+		GUI_Testing* app = static_cast<GUI_Testing*>(userdata);
 
-		switch (event.type)
-		{
-		case def::gui::Event::Type::Component_Focused:
-			std::cout << "Text entry was focused!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Component_Unfocused:
-			std::cout << "Text entry was unfocused!" << std::endl;
-			break;
-
-		case def::gui::Event::Type::Component_Confirm:
-			std::cout << "Text entry text: " << textentry->GetText() << std::endl;
-			break;
-
-		}
+		if (event.type == def::gui::Event::Type::Mouse_Released)
+			app->list->AddString(app->textentry->GetText());
 	}
 
 	bool OnUserCreate() override
@@ -60,13 +49,14 @@ protected:
 
 		panel = manager->AddPanel("Some title", { 10, 10 }, { 500, 400 });
 
-		label = new def::gui::Label(panel, "some text", { 20, 20 }, { 30, 1 });
-		button = new def::gui::Button(panel, "click me!", { 20, 50 }, { 30, 1 });
-		textentry = new def::gui::TextEntry(panel, { 20, 80 }, { 20, 1 });
+		label = new def::gui::Label(panel, "Some title", { 20, 20 }, { 20, 1 });
+		button = new def::gui::Button(panel, "Add", { 200, 50 }, { 3, 1 });
+		textentry = new def::gui::TextEntry(panel, { 20, 50 }, { 20, 1 });
 
-		textentry->SetPlaceholder("Write something...");
+		textentry->SetPlaceholder("Write here...");
+		button->SetEventHandler(Event_Button, this);
 
-		textentry->SetEventHandler(Event_TextEntry);
+		list = new def::gui::List(panel, { 20, 80 }, { 20, 10 });
 
 		return true;
 	}

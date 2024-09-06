@@ -19,6 +19,7 @@ namespace def::gui
 
 		friend class Button;
 		friend class TextEntry;
+		friend class List;
 
 	public:
 		std::string GetText() const;
@@ -31,7 +32,13 @@ namespace def::gui
 		void SetSize(const Vector2i& size);
 
 		Align GetTextAlign() const;
-		void SetTextAlign(Align align);
+		virtual void SetTextAlign(Align align);
+
+	private:
+		void UpdateTextPosition(const std::vector<std::string>& lines);
+		void SplitTextIntoLines(std::vector<std::string>& lines);
+
+		void UpdateText();
 
 	private:
 		std::string m_Text;
@@ -48,6 +55,8 @@ namespace def::gui
 		};
 
 		std::vector<TextUnit> m_TextSplitted;
+
+		bool m_ForceUpdateOffset;
 
 	};
 }

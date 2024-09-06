@@ -23,24 +23,27 @@ namespace def::gui
 	};
 
 	template <class T>
-	using EventHandlerFunc = void (*)(T*, const Event&);
+	using EventHandlerFunc = void (*)(T*, const Event&, void*);
 
 	template <class T>
 	class EventHandler
 	{
 	public:
-		void SetEventHandler(EventHandlerFunc<T> func)
+		void SetEventHandler(EventHandlerFunc<T> func, void* userData = nullptr)
 		{
 			m_EventHandlerFunc = func;
+			m_UserData = userData;
 		}
 
-		EventHandlerFunc<T> GetEventHandler() const
+		void HandleEvent(T* component, const Event& event)
 		{
-			return m_EventHandlerFunc;
+			if (m_EventHandlerFunc)
+				m_EventHandlerFunc(component, event, m_UserData);
 		}
 		
 	private:
 		EventHandlerFunc<T> m_EventHandlerFunc = nullptr;
+		void* m_UserData = nullptr;
 
 	};
 }

@@ -3143,12 +3143,12 @@ namespace def
 
 	void GameEngine::DrawTextureRectangle(const vi2d& pos, const vi2d& size, const Pixel& col)
 	{
-		DrawTexturePolygon({ pos, { float(pos.x + size.x), (float)pos.y }, pos + size, { (float)pos.x, float(pos.y + size.y) } }, { col, col, col, col }, Texture::Structure::WIREFRAME);
+		DrawTexturePolygon({ pos, { float(pos.x + size.x), (float)pos.y }, pos + size, { (float)pos.x - 1, float(pos.y + size.y) } }, { col, col, col, col }, Texture::Structure::WIREFRAME);
 	}
 
 	void GameEngine::FillTextureRectangle(const vi2d& pos, const vi2d& size, const Pixel& col)
 	{
-		DrawTexturePolygon({ pos, { float(pos.x + size.x), (float)pos.y }, pos + size, { (float)pos.x, float(pos.y + size.y) } }, { col, col, col, col }, Texture::Structure::FAN);
+		DrawTexturePolygon({ pos, { float(pos.x + size.x), (float)pos.y }, pos + size, { (float)pos.x - 1, float(pos.y + size.y) } }, { col, col, col, col }, Texture::Structure::FAN);
 	}
 
 	void GameEngine::DrawTextureCircle(const vi2d& pos, int radius, const Pixel& col)

@@ -58,10 +58,7 @@ namespace def::gui
 
 		if (IsPointInRect(mousePos, m_Position, m_Size))
 		{
-			auto HandleEvent = GetEventHandler();
-
-			if (HandleEvent)
-				HandleEvent(this, { Event::Type::Mouse_Hover });
+			HandleEvent(this, { Event::Type::Mouse_Hover });
 
 			if (mouseState.pressed)
 			{

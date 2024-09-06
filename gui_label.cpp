@@ -34,22 +34,19 @@ namespace def::gui
 
 	bool Label::Update(Platform* platform)
 	{
+		UpdateText();
+
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
-		auto HandleEvent = GetEventHandler();
-
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			if (HandleEvent)
-			{
-				HandleEvent(this, { Event::Type::Mouse_Hover });
+			HandleEvent(this, { Event::Type::Mouse_Hover });
 
-				if (mouse_leftButtonState.pressed)
-				{
-					m_IsFocused = true;
-					HandleEvent(this, { Event::Type::Component_Focused });
-				}
+			if (mouse_leftButtonState.pressed)
+			{
+				m_IsFocused = true;
+				HandleEvent(this, { Event::Type::Component_Focused });
 			}
 
 			return true;
@@ -71,7 +68,9 @@ namespace def::gui
 		platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
 		platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
 
-		for (size_t i = 0; i < m_TextSplitted.size(); i++)
+		size_t end = std::min((size_t)m_CharsSize.y, m_TextSplitted.size());
+
+		for (size_t i = 0; i < end; i++)
 		{
 			auto& unit = m_TextSplitted[i];
 
@@ -100,29 +99,42 @@ namespace def::gui
 
 	void Label::SetTextAlign(Align align)
 	{
-		std::vector<std::string> lines;
-		size_t linesCount = 0;
+		m_TextAlign = align;
+		m_ForceUpdateOffset = true;
+	}
 
+	void Label::UpdateTextPosition(const std::vector<std::string>& lines)
+	{
+		m_TextSplitted.clear();
+		m_TextSplitted.resize(lines.size());
+
+		for (size_t i = 0; i < lines.size(); i++)
+		{
+			auto& unit = m_TextSplitted[i];
+			unit.text = lines[i];
+
+			int length = lines[i].length();
+
+			switch (m_TextAlign)
+			{
+			case Align::LEFT: unit.offset = { 0, 0 }; break;
+			case Align::CENTRE: unit.offset = { m_PhysicalSize.x / 2 - length * 4 - 2, 0 }; break;
+			case Align::RIGHT: unit.offset = { m_PhysicalSize.x - length * 8 - 2, 0 }; break;
+			}
+
+			unit.offset += 2;
+		}
+	}
+
+	void Label::SplitTextIntoLines(std::vector<std::string>& lines)
+	{
 		if (m_Text.find('\n') == std::string::npos)
 		{
 			if (!m_Text.empty())
-			{
 				lines.push_back(m_Text);
-				linesCount = 1;
-			}
 		}
 		else
 		{
-			linesCount = 1;
-
-			for (auto c : m_Text)
-			{
-				if (c == '\n')
-					linesCount++;
-			}
-
-			lines.reserve(linesCount);
-
 			std::string buffer;
 
 			for (auto c : m_Text)
@@ -130,6 +142,10 @@ namespace def::gui
 				if (c == '\n')
 				{
 					lines.push_back(buffer);
+
+					if (lines.size() == m_CharsSize.y)
+						return;
+
 					buffer.clear();
 				}
 				else
@@ -139,27 +155,18 @@ namespace def::gui
 			if (!buffer.empty())
 				lines.push_back(buffer);
 		}
+	}
 
-		m_TextSplitted.clear();
-		m_TextSplitted.resize(linesCount);
-
-		for (size_t i = 0; i < linesCount; i++)
+	void Label::UpdateText()
+	{
+		if (m_ForceUpdateOffset)
 		{
-			auto& unit = m_TextSplitted[i];
-			unit.text = lines[i];
+			std::vector<std::string> lines;
 
-			int length = lines[i].length();
+			SplitTextIntoLines(lines);
+			UpdateTextPosition(lines);
 
-			switch (align)
-			{
-			case Align::LEFT: unit.offset = { 0, 0 }; break;
-			case Align::CENTRE: unit.offset = { m_PhysicalSize.x / 2 - length * 4 - 2, 0 }; break;
-			case Align::RIGHT: unit.offset = { m_PhysicalSize.x - length * 8 - 2, 0 }; break;
-			}
-
-			unit.offset += 2;
+			m_ForceUpdateOffset = false;
 		}
-
-		m_TextAlign = align;
 	}
 }

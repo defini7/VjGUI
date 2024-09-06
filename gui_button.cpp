@@ -17,41 +17,38 @@ namespace def::gui
 
 	bool Button::Update(Platform* platform)
 	{
+		UpdateText();
+
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
-		auto HandleEvent = GetEventHandler();
-
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
 		{
-			if (HandleEvent)
+			HandleEvent(this, { Event::Type::Mouse_Hover });
+
+			if (mouse_leftButtonState.pressed)
 			{
-				HandleEvent(this, { Event::Type::Mouse_Hover });
-
-				if (mouse_leftButtonState.pressed)
-				{
-					m_IsFocused = true;
-					HandleEvent(this, { Event::Type::Component_Focused });
-				}
-
-				Event mouseEvent;
-				mouseEvent.type = Event::Type::None;
-
-				if (mouse_leftButtonState.pressed)
-					mouseEvent.type = Event::Type::Mouse_Pressed;
-				else if (mouse_leftButtonState.held)
-					mouseEvent.type = Event::Type::Mouse_Held;
-				else if (mouse_leftButtonState.released)
-				{
-					mouseEvent.type = Event::Type::Mouse_Released;
-					m_IsFocused = false;
-
-					HandleEvent(this, { Event::Type::Component_Unfocused });
-				}
-
-				if (mouseEvent.type != Event::Type::None)
-					HandleEvent(this, mouseEvent);
+				m_IsFocused = true;
+				HandleEvent(this, { Event::Type::Component_Focused });
 			}
+
+			Event mouseEvent;
+			mouseEvent.type = Event::Type::None;
+
+			if (mouse_leftButtonState.pressed)
+				mouseEvent.type = Event::Type::Mouse_Pressed;
+			else if (mouse_leftButtonState.held)
+				mouseEvent.type = Event::Type::Mouse_Held;
+			else if (mouse_leftButtonState.released)
+			{
+				mouseEvent.type = Event::Type::Mouse_Released;
+				m_IsFocused = false;
+
+				HandleEvent(this, { Event::Type::Component_Unfocused });
+			}
+
+			if (mouseEvent.type != Event::Type::None)
+				HandleEvent(this, mouseEvent);
 
 			return true;
 		}

@@ -42,14 +42,15 @@ protected:
 		theme.text = { 200, 200, 0 };
 		theme.cursor = { 200, 200, 200 };
 		theme.placeholder = { 100, 100, 0 };
+		theme.slider = { 200, 250, 0 };
 		theme.focusedLightFactor = 1.5f;
 
 		platform = new def::gui::Platform_defGameEngine(this);
 		manager = new def::gui::Manager(platform);
 
-		panel = manager->AddPanel("Some title", { 10, 10 }, { 500, 400 });
+		panel = manager->AddPanel("Some title", { 10, 10 }, { 500, 200 });
 
-		label = new def::gui::Label(panel, "Some title", { 20, 20 }, { 20, 1 });
+		label = new def::gui::Label(panel, "Some text", { 20, 20 }, { 20, 1 });
 		button = new def::gui::Button(panel, "Add", { 200, 50 }, { 3, 1 });
 		textentry = new def::gui::TextEntry(panel, { 20, 50 }, { 20, 1 });
 
@@ -76,7 +77,7 @@ int main()
 {
 	GUI_Testing app;
 
-	if (app.Construct(1280, 720, 1, 1))
+	if (app.Construct(640, 360, 2, 2))
 		app.Run();
 
 	return 0;

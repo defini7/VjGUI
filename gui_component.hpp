@@ -7,16 +7,12 @@
 
 namespace def::gui
 {
-	class Panel;
-
 	class Component : public EventHandler<Component>
 	{
 	public:
-		Component(Panel* parent = nullptr);
-		Component(Panel* parent, const Vector2i& pos);
+		Component(Component* parent = nullptr);
+		Component(Component* parent, const Vector2i& pos, const Vector2i& size);
 		virtual ~Component();
-
-		friend class Panel;
 
 	public:
 		virtual bool Update(Platform* platform);
@@ -24,13 +20,30 @@ namespace def::gui
 
 		Vector2i GetPosition() const;
 		void SetPosition(const Vector2i& pos);
+
+		Vector2i GetSize() const;
+		void SetSize(const Vector2i& size);
+
 		void UpdatePosition();
 
-		Panel* GetParent() const;
-		void SetParent(Panel* parent);
+		Component* GetParent() const;
+		void SetParent(Component* parent);
 
 		Align GetAlign() const;
 		void SetAlign(Align align);
+
+		void EnableLight(bool enable);
+
+		template <class T>
+		T* AddComponent(T* component)
+		{
+			component->SetParent(this);
+			m_Children.push_back(component);
+
+			return component;
+		}
+
+		std::list<Component*>& GetChildren();
 
 	protected:
 		// Relative to the panel
@@ -39,7 +52,10 @@ namespace def::gui
 		// Relative to the screen
 		Vector2i m_GlobalPosition;
 
-		Panel* m_Parent;
+		Vector2i m_Size;
+
+		Component* m_Parent;
+		std::list<Component*> m_Children;
 
 		Align m_Align;
 

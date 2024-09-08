@@ -12,7 +12,9 @@ namespace def
 		{
 			LEFT,
 			CENTRE,
-			RIGHT
+			RIGHT,
+			TOP,
+			BOTTOM
 		};
 	}
 

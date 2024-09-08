@@ -3,13 +3,14 @@
 
 namespace def::gui
 {
-	Component::Component(Panel* parent) : m_EnableLight(false), m_IsFocused(false)
+	Component::Component(Component* parent) : m_EnableLight(false), m_IsFocused(false), m_Parent(parent)
 	{
 		if (parent)
 			parent->AddComponent(this);
 	}
 
-	Component::Component(Panel* parent, const Vector2i& pos) : m_EnableLight(false), m_IsFocused(false)
+	Component::Component(Component* parent, const Vector2i& pos, const Vector2i& size)
+		: m_EnableLight(false), m_IsFocused(false), m_Size(size), m_Parent(parent)
 	{
 		if (parent)
 			parent->AddComponent(this);
@@ -42,15 +43,31 @@ namespace def::gui
 		m_LocalPosition = pos;
 
 		// TODO: Make title bar size as constant
-		m_GlobalPosition = m_Parent->GetPosition() + Vector2i(1, 20) + pos;
+		m_GlobalPosition = Vector2i(1, 20) + pos;
+
+		if (m_Parent)
+			m_GlobalPosition += m_Parent->m_GlobalPosition;
+	}
+
+	Vector2i Component::GetSize() const
+	{
+		return m_Size;
+	}
+
+	void Component::SetSize(const Vector2i& size)
+	{
+		m_Size = size;
 	}
 
 	void Component::UpdatePosition()
 	{
-		m_GlobalPosition = m_Parent->GetPosition() + Vector2i(1, 20) + m_LocalPosition;
+		m_GlobalPosition = Vector2i(1, 20) + m_LocalPosition;
+
+		if (m_Parent)
+			m_GlobalPosition += m_Parent->m_GlobalPosition;
 	}
 
-	void Component::SetParent(Panel* parent)
+	void Component::SetParent(Component* parent)
 	{
 		m_Parent = parent;
 	}
@@ -65,7 +82,17 @@ namespace def::gui
 		m_Align = align;
 	}
 
-	Panel* Component::GetParent() const
+	void Component::EnableLight(bool enable)
+	{
+		m_EnableLight = enable;
+	}
+
+	std::list<Component*>& Component::GetChildren()
+	{
+		return m_Children;
+	}
+
+	Component* Component::GetParent() const
 	{
 		return m_Parent;
 	}

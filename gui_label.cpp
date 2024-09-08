@@ -4,16 +4,18 @@
 
 namespace def::gui
 {
-	Label::Label(Panel* parent) : Component(parent)
+	Label::Label(Panel* parent) : Component(parent), m_ViewStart(0)
 	{
 		SetTextAlign(Align::LEFT);
 	}
 
 	Label::Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
-		: Component(parent, pos)
+		: Component(parent), m_ViewStart(0)
 	{
 		m_Text = text;
+
 		SetTextAlign(Align::LEFT);
+		SetPosition(pos);
 		SetSize(size);
 	}
 
@@ -39,7 +41,7 @@ namespace def::gui
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
-		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
+		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
 		{
 			HandleEvent(this, { Event::Type::Mouse_Hover });
 
@@ -65,8 +67,8 @@ namespace def::gui
 
 	void Label::Draw(Platform* platform, const Theme& theme) const
 	{
-		platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
-		platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+		platform->FillRect(m_GlobalPosition, m_Size, theme.componentBackground);
+		platform->DrawRect(m_GlobalPosition, m_Size, theme.border);
 
 		size_t end = std::min((size_t)m_CharsSize.y, m_TextSplitted.size());
 
@@ -89,7 +91,7 @@ namespace def::gui
 	void Label::SetSize(const Vector2i& size)
 	{
 		m_CharsSize = size;
-		m_PhysicalSize = { size.x * 8 + 4, size.y * 8 + 2 };
+		m_Size = { size.x * 8 + 4, size.y * 8 + 2 };
 	}
 
 	Align Label::GetTextAlign() const
@@ -108,7 +110,7 @@ namespace def::gui
 		m_TextSplitted.clear();
 		m_TextSplitted.resize(lines.size());
 
-		for (size_t i = 0; i < lines.size(); i++)
+		for (size_t i = m_ViewStart; i < lines.size() + m_ViewStart; i++)
 		{
 			auto& unit = m_TextSplitted[i];
 			unit.text = lines[i];
@@ -118,8 +120,8 @@ namespace def::gui
 			switch (m_TextAlign)
 			{
 			case Align::LEFT: unit.offset = { 0, 0 }; break;
-			case Align::CENTRE: unit.offset = { m_PhysicalSize.x / 2 - length * 4 - 2, 0 }; break;
-			case Align::RIGHT: unit.offset = { m_PhysicalSize.x - length * 8 - 2, 0 }; break;
+			case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
+			case Align::RIGHT: unit.offset = { m_Size.x - length * 8 - 2, 0 }; break;
 			}
 
 			unit.offset += 2;
@@ -142,10 +144,6 @@ namespace def::gui
 				if (c == '\n')
 				{
 					lines.push_back(buffer);
-
-					if (lines.size() == m_CharsSize.y)
-						return;
-
 					buffer.clear();
 				}
 				else

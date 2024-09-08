@@ -26,7 +26,6 @@ namespace def::gui
 		if (m_ForceUpdateOffset)
 		{
 			UpdateTextPosition(m_Items);
-
 			m_ForceUpdateOffset = false;
 		}
 

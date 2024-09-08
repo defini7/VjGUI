@@ -44,7 +44,6 @@ namespace def::gui
 		std::string m_Text;
 
 		Vector2i m_CharsSize;
-		Vector2i m_PhysicalSize;
 
 		Align m_TextAlign;
 
@@ -57,6 +56,8 @@ namespace def::gui
 		std::vector<TextUnit> m_TextSplitted;
 
 		bool m_ForceUpdateOffset;
+
+		size_t m_ViewStart;
 
 	};
 }

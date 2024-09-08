@@ -15,6 +15,7 @@ namespace def::gui
 		Colour placeholder;
 		Colour titleBar;
 		Colour cursor;
+		Colour slider;
 
 		float focusedLightFactor = 0.0f;
 		bool forceUsingPlaceholder = false;

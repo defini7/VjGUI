@@ -33,7 +33,7 @@ namespace def::gui
 
 		bool light = false;
 		
-		if (IsPointInRect(mousePos, m_GlobalPosition, m_PhysicalSize))
+		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
 		{
 			HandleEvent(this, { Event::Type::Mouse_Hover });
 
@@ -116,13 +116,13 @@ namespace def::gui
 	{
 		if (m_EnableLight)
 		{
-			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.componentBackground));
-			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.ApplyLight(theme.border));
+			platform->FillRect(m_GlobalPosition, m_Size, theme.ApplyLight(theme.componentBackground));
+			platform->DrawRect(m_GlobalPosition, m_Size, theme.ApplyLight(theme.border));
 		}
 		else
 		{
-			platform->FillRect(m_GlobalPosition, m_PhysicalSize, theme.componentBackground);
-			platform->DrawRect(m_GlobalPosition, m_PhysicalSize, theme.border);
+			platform->FillRect(m_GlobalPosition, m_Size, theme.componentBackground);
+			platform->DrawRect(m_GlobalPosition, m_Size, theme.border);
 		}
 
 		if (m_TextSplitted.empty())

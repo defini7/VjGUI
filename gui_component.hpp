@@ -15,6 +15,8 @@ namespace def::gui
 		virtual ~Component();
 
 	public:
+		static Vector2i LocalToGlobalPosition(Component* parent, const Vector2i& pos);
+
 		virtual bool Update(Platform* platform);
 		virtual void Draw(Platform* platform, const Theme& theme) const;
 
@@ -61,6 +63,8 @@ namespace def::gui
 
 		bool m_EnableLight;
 		bool m_IsFocused;
+
+		Event m_LastEvent;
 
 	};
 }

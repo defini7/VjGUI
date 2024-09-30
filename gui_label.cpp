@@ -38,31 +38,7 @@ namespace def::gui
 	{
 		UpdateText();
 
-		Vector2i mousePos = platform->GetMousePosition();
-		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
-
-		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
-		{
-			HandleEvent(this, { Event::Type::Mouse_Hover });
-
-			if (mouse_leftButtonState.pressed)
-			{
-				m_IsFocused = true;
-				HandleEvent(this, { Event::Type::Component_Focused });
-			}
-
-			return true;
-		}
-		else
-		{
-			if (mouse_leftButtonState.pressed && m_IsFocused)
-			{
-				m_IsFocused = false;
-				HandleEvent(this, { Event::Type::Component_Unfocused });
-			}
-		}
-		
-		return false;
+		return Component::Update(platform);
 	}
 
 	void Label::Draw(Platform* platform, const Theme& theme) const

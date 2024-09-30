@@ -23,8 +23,43 @@ namespace def::gui
 
 	}
 
+	Vector2i Component::LocalToGlobalPosition(Component* parent, const Vector2i& pos)
+	{
+		// TODO: Make title bar size as constant
+		Vector2i output = Vector2i(1, 20) + pos;
+
+		if (parent)
+			output += parent->m_GlobalPosition;
+
+		return output;
+	}
+
 	bool Component::Update(Platform* platform)
 	{
+		Vector2i mousePos = platform->GetMousePosition();
+		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
+
+		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
+		{
+			HandleEvent(this, { Event::Type::Mouse_Hover });
+
+			if (mouse_leftButtonState.pressed)
+			{
+				m_IsFocused = true;
+				HandleEvent(this, { Event::Type::Component_Focused });
+			}
+
+			return true;
+		}
+		else
+		{
+			if (mouse_leftButtonState.pressed && m_IsFocused)
+			{
+				m_IsFocused = false;
+				HandleEvent(this, { Event::Type::Component_Unfocused });
+			}
+		}
+
 		return false;
 	}
 
@@ -40,13 +75,8 @@ namespace def::gui
 
 	void Component::SetPosition(const Vector2i& pos)
 	{
+		m_GlobalPosition = LocalToGlobalPosition(m_Parent, pos);
 		m_LocalPosition = pos;
-
-		// TODO: Make title bar size as constant
-		m_GlobalPosition = Vector2i(1, 20) + pos;
-
-		if (m_Parent)
-			m_GlobalPosition += m_Parent->m_GlobalPosition;
 	}
 
 	Vector2i Component::GetSize() const

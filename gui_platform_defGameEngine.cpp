@@ -35,7 +35,7 @@ namespace def::gui
 			{ KeyType::W, Key::W }, { KeyType::X, Key::X },
 			{ KeyType::Y, Key::Y }, { KeyType::Z, Key::Z },
 			{ KeyType::LEFT_BRACKET, Key::LEFT_BRACKET }, { KeyType::BACKSLASH, Key::BACKSLASH },
-			{ KeyType::RIGHT_BRACKET, Key::RIGHT_BRACKET }, { KeyType::GRAVE_ACCENT, Key::GRAVE_ACCENT },
+			{ KeyType::RIGHT_BRACKET, Key::RIGHT_BRACKET },
 			{ KeyType::NP_0, Key::NP_0 }, { KeyType::NP_1, Key::NP_1 },
 			{ KeyType::NP_2, Key::NP_2 }, { KeyType::NP_3, Key::NP_3 },
 			{ KeyType::NP_4, Key::NP_4 }, { KeyType::NP_5, Key::NP_5 },
@@ -45,8 +45,8 @@ namespace def::gui
 			{ KeyType::NP_SUBTRACT, Key::NP_SUBTRACT }, { KeyType::NP_ADD, Key::NP_ADD },
 			{ KeyType::NP_EQUAL, Key::NP_EQUAL }, { KeyType::LEFT_SHIFT, Key::LEFT_SHIFT },
 			{ KeyType::RIGHT_SHIFT, Key::RIGHT_SHIFT }, { KeyType::BACKSPACE, Key::BACKSPACE },
-			{ KeyType::DELETE, Key::DEL }, { KeyType::LEFT_ARROW, Key::LEFT },
-			{ KeyType::RIGHT_ARROW, Key::RIGHT }, { KeyType::ENTER, Key::ENTER }
+			{ KeyType::DEL, Key::DEL }, { KeyType::LEFT, Key::LEFT },
+			{ KeyType::RIGHT, Key::RIGHT }, { KeyType::ENTER, Key::ENTER }
 		};
 
 		m_ButtonLookup =

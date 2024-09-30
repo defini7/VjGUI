@@ -28,32 +28,6 @@ namespace def::gui
 
 	bool TextEntry::Update(Platform* platform)
 	{
-		Vector2i mousePos = platform->GetMousePosition();
-		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
-
-		bool light = false;
-		
-		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
-		{
-			HandleEvent(this, { Event::Type::Mouse_Hover });
-
-			if (mouse_leftButtonState.pressed)
-			{
-				HandleEvent(this, { Event::Type::Component_Focused });
-				m_IsFocused = true;
-			}
-
-			light = true;
-		}
-		else
-		{
-			if (mouse_leftButtonState.pressed && m_IsFocused)
-			{
-				m_IsFocused = false;
-				HandleEvent(this, { Event::Type::Component_Unfocused });
-			}
-		}
-
 		if (m_IsFocused)
 		{
 			using KeyType = HardwareButton::KeyType;
@@ -79,19 +53,19 @@ namespace def::gui
 				}
 			}
 
-			if (platform->GetKey(KeyType::DELETE).pressed)
+			if (platform->GetKey(KeyType::DEL).pressed)
 			{
 				if (m_CursorPos < m_Text.length())
 					m_Text.erase(m_CursorPos, 1);
 			}
 
-			if (platform->GetKey(KeyType::LEFT_ARROW).pressed)
+			if (platform->GetKey(KeyType::LEFT).pressed)
 			{
 				if (m_CursorPos > 0)
 					m_CursorPos--;
 			}
 
-			if (platform->GetKey(KeyType::RIGHT_ARROW).pressed)
+			if (platform->GetKey(KeyType::RIGHT).pressed)
 			{
 				if (m_CursorPos < m_Text.length())
 					m_CursorPos++;
@@ -109,7 +83,7 @@ namespace def::gui
 				m_Ticks = 0.0f;
 		}
 
-		return light;
+		return Component::Update(platform);
 	}
 
 	void TextEntry::Draw(Platform* platform, const Theme& theme) const
@@ -193,7 +167,7 @@ namespace def::gui
 		{ KeyType::W, { 'w', 'W' } }, { KeyType::X, { 'x', 'X' } },
 		{ KeyType::Y, { 'y', 'Y' } }, { KeyType::Z, { 'z', 'Z' } },
 		{ KeyType::LEFT_BRACKET, { '[', '{' } }, { KeyType::BACKSLASH, { '\\', '|' } },
-		{ KeyType::RIGHT_BRACKET, { ']', '}' } }, { KeyType::GRAVE_ACCENT, { '`', '~' } },
+		{ KeyType::RIGHT_BRACKET, { ']', '}' } },
 		{ KeyType::NP_0, { '0', '0' } }, { KeyType::NP_1, { '1', '1' } },
 		{ KeyType::NP_2, { '2', '2' } }, { KeyType::NP_3, { '3', '3' } },
 		{ KeyType::NP_4, { '4', '4' } }, { KeyType::NP_5, { '5', '5' } },

@@ -16,7 +16,7 @@ namespace def::gui
 			SetPosition(start);
 
 			m_GlobalEndPosition = LocalToGlobalPosition(parent, end);
-			m_SliderPosition = m_GlobalPosition - m_Size / 2;
+			UpdateSliderPosition();
 		}
 		
 		~Slider() = default;
@@ -64,8 +64,7 @@ namespace def::gui
 					if (m_Value < m_MinValue) m_Value = m_MinValue;
 					if (m_Value > m_MaxValue) m_Value = m_MaxValue;
 
-					auto offset = (m_LocalEndPosition - m_LocalPosition) * (m_Value - m_MinValue) / (m_MaxValue - m_MinValue);
-					m_SliderPosition = LocalToGlobalPosition(m_Parent, m_LocalPosition - m_Size / 2 + offset);
+					UpdateSliderPosition();
 				}
 			}
 
@@ -88,6 +87,13 @@ namespace def::gui
 		T GetValue() const
 		{
 			return m_Value;
+		}
+
+	private:
+		void UpdateSliderPosition()
+		{
+			auto offset = (m_LocalEndPosition - m_LocalPosition) * (m_Value - m_MinValue) / (m_MaxValue - m_MinValue);
+			m_SliderPosition = LocalToGlobalPosition(m_Parent, m_LocalPosition - m_Size / 2 + offset);
 		}
 
 	private:

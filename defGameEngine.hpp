@@ -1,33 +1,7 @@
 #ifndef DEF_GAME_ENGINE_HPP
 #define DEF_GAME_ENGINE_HPP
 
-#pragma region License
-/***
-*	BSD 3-Clause License
-	Copyright (c) 2022 - 2024 Alex
-	All rights reserved.
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions are met:
-	1. Redistributions of source code must retain the above copyright notice, this
-	   list of conditions and the following disclaimer.
-	2. Redistributions in binary form must reproduce the above copyright notice,
-	   this list of conditions and the following disclaimer in the documentation
-	   and/or other materials provided with the distribution.
-	3. Neither the name of the copyright holder nor the names of its
-	   contributors may be used to endorse or promote products derived from
-	   this software without specific prior written permission.
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-	FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-	DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-	OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-***/
-#pragma endregion
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
 #pragma region Sample
 /**
@@ -35,7 +9,7 @@
 	#define DGE_APPLICATION
 	#include "defGameEngine.hpp"
 
-	class Sample : public def::GameEngine
+	class Sample : public GameEngine
 	{
 	public:
 		Sample()
@@ -53,7 +27,7 @@
 		{
 			for (int i = 0; i < ScreenWidth(); i++)
 				for (int j = 0; j < ScreenHeight(); j++)
-					Draw(i, j, def::Pixel(rand() % 256, rand() % 256, rand() % 256));
+					Draw(i, j, Pixel(rand() % 256, rand() % 256, rand() % 256));
 
 			return true;
 		}
@@ -75,6 +49,7 @@
 
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <chrono>
 #include <vector>
 #include <cmath>
@@ -105,14 +80,14 @@
 #include <emscripten/html5.h>
 #endif
 
-#include "stb_image.h"
-
 #pragma warning(disable : 4996)
+
+#include "stb/stb_image.h"
+
+#include "stb/stb_image_write.h"
 
 // Oh, dear stb_image...
 #define SAFE_STBI_FAILURE_REASON() (stbi_failure_reason() ? stbi_failure_reason() : "")
-
-#include "stb_image_write.h"
 
 #ifdef _WIN32
 
@@ -677,6 +652,26 @@ namespace def
 
 #endif
 
+	struct Layer
+	{
+		std::vector<TextureInstance> textures;
+		Graphic* pixels = nullptr;
+		Graphic* target = pixels;
+
+		vi2d offset;
+		vi2d size;
+
+		Texture::Structure textureStructure = Texture::Structure::FAN;
+		Pixel::Mode pixelMode = Pixel::Mode::DEFAULT;
+
+		bool visible = true;
+		bool update = true;
+
+		Pixel tint = WHITE;
+
+		Pixel(*shader)(const vi2d&, const Pixel&, const Pixel&) = nullptr;
+	};
+
 	class GameEngine
 	{
 	public:
@@ -717,18 +712,14 @@ namespace def
 		vi2d m_MousePos;
 
 		Graphic m_Font;
-		int m_TabSize = 4;
+		int m_TabSize;
 
-		Graphic* m_DrawTarget;
-		Graphic* m_Screen;
-
-		std::vector<TextureInstance> m_Textures;
+		std::vector<Layer> m_Layers;
+		size_t m_PickedLayer;
+		size_t m_ConsoleLayer;
 
 		Pixel m_ConsoleBackgroundColour;
-		Pixel m_ClearBufferColour;
-
-		Texture::Structure m_TextureStructure;
-		Pixel::Mode m_PixelMode;
+		Pixel m_BackgroundColour;
 
 		std::vector<std::string> m_DropCache;
 		int m_ScrollDelta;
@@ -737,7 +728,6 @@ namespace def
 		size_t m_CursorPos;
 
 		bool m_CaptureText;
-		bool m_ShowConsole;
 		bool m_Caps;
 
 		struct ConsoleEntry
@@ -754,8 +744,6 @@ namespace def
 		float m_DeltaTime;
 		float m_TickTimer;
 
-		Pixel(*m_Shader)(const vi2d&, const Pixel&, const Pixel&);
-
 		Platform* m_Platform;
 
 		std::chrono::system_clock::time_point m_TimeStart;
@@ -768,7 +756,7 @@ namespace def
 	public:
 		static GameEngine* s_Engine;
 		static std::unordered_map<Key, std::pair<char, char>> s_KeyboardUS;
-		static std::unordered_map<int, def::Key> s_KeysTable;
+		static std::unordered_map<int, Key> s_KeysTable;
 		inline static std::vector<vf2d> s_UnitCircle;
 
 		virtual bool OnUserCreate() = 0;
@@ -831,8 +819,8 @@ namespace def
 		void FillWireFrameModel(const std::vector<vf2d>& modelCoordinates, const vf2d& pos, float rotation = 0.0f, float scale = 1.0f, const Pixel& col = WHITE);
 		virtual void FillWireFrameModel(const std::vector<vf2d>& modelCoordinates, float x, float y, float rotation = 0.0f, float scale = 1.0f, const Pixel& col = WHITE);
 
-		void DrawString(const vi2d& pos, std::string_view text, const Pixel& col = WHITE, const vi2d& scale = { 1, 1 });
-		virtual void DrawString(int x, int y, std::string_view text, const Pixel& col = WHITE, int scaleX = 1, int scaleY = 1);
+		void DrawString(const vi2d& pos, std::string_view text, const Pixel& col = WHITE, const vec2d<uint32_t>& scale = { 1, 1 });
+		virtual void DrawString(int x, int y, std::string_view text, const Pixel& col = WHITE, uint32_t scaleX = 1, uint32_t scaleY = 1);
 
 		virtual void Clear(const Pixel& col);
 		void ClearTexture(const Pixel& col);
@@ -860,7 +848,7 @@ namespace def
 		void GradientTextureTriangle(const vi2d& pos1, const vi2d& pos2, const vi2d& pos3, const Pixel& col1 = WHITE, const Pixel& col2 = WHITE, const Pixel& col3 = WHITE);
 		void GradientTextureRectangle(const vi2d& pos, const vi2d& size, const Pixel& colTL = WHITE, const Pixel& colTR = WHITE, const Pixel& colBR = WHITE, const Pixel& colBL = WHITE);
 
-		void DrawTextureString(const vi2d& pos, std::string_view text, const Pixel& col = def::WHITE, const vf2d& scale = { 1.0f, 1.0f });
+		void DrawTextureString(const vi2d& pos, std::string_view text, const Pixel& col = WHITE, const vf2d& scale = { 1.0f, 1.0f });
 
 		KeyState GetKey(Key key) const;
 		KeyState GetMouse(Button button) const;
@@ -909,11 +897,9 @@ namespace def
 		bool IsConsoleEnabled() const;
 		void ClearCapturedText();
 		void ClearConsole();
-
 		bool IsCaps() const;
 
 		void UseOnlyTextures(bool enable);
-
 		float GetDeltaTime() const;
 
 		auto GetWindow()
@@ -924,6 +910,12 @@ namespace def
 			return ((Platform_Emscripten*)m_Platform)->m_Display;
 #endif
 		}
+
+		size_t CreateLayer(const vi2d& offset, const vi2d& size, bool update = true, bool visible = true, const Pixel& tint = WHITE);
+		void PickLayer(size_t layer);
+		size_t GetPickedLayer() const;
+		Layer* GetLayerByIndex(size_t index);
+
 	};
 
 #ifdef DGE_APPLICATION
@@ -967,7 +959,7 @@ namespace def
 
 #ifdef PLATFORM_GLFW3
 
-	std::unordered_map<int, def::Key> GameEngine::s_KeysTable =
+	std::unordered_map<int, Key> GameEngine::s_KeysTable =
 	{
 		{ GLFW_KEY_SPACE, Key::SPACE }, { GLFW_KEY_APOSTROPHE, Key::APOSTROPHE }, { GLFW_KEY_COMMA, Key::COMMA },
 		{ GLFW_KEY_MINUS, Key::MINUS }, { GLFW_KEY_PERIOD, Key::PERIOD }, { GLFW_KEY_SLASH, Key::SLASH },
@@ -1655,7 +1647,11 @@ namespace def
 
 	void Sprite::Load(std::string_view fileName)
 	{
-		uint8_t* data = stbi_load(fileName.data(), &size.x, &size.y, NULL, 4);
+		uint8_t* data;
+
+		Assert(!stbi_is_hdr(fileName.data()), "[stb_image Error] can't load an HDR file");
+
+		data = stbi_load(fileName.data(), &size.x, &size.y, NULL, 4);
 		Assert(data, "[stb_image Error] ", SAFE_STBI_FAILURE_REASON());
 
 		pixels.clear();
@@ -1670,6 +1666,8 @@ namespace def
 			pixels[j].b = data[i + 2];
 			pixels[j].a = data[i + 3];
 		}
+
+		stbi_image_free(data);
 	}
 
 	void Sprite::Save(std::string_view fileName, const FileType type) const
@@ -2017,7 +2015,7 @@ namespace def
 		case Texture::Structure::WIREFRAME:	glBegin(GL_LINE_LOOP);		break;
 		}
 
-		for (int i = 0; i < texInst.points; i++)
+		for (uint32_t i = 0; i < texInst.points; i++)
 		{
 			glColor4ub(texInst.tint[i].r, texInst.tint[i].g, texInst.tint[i].b, texInst.tint[i].a);
 			glTexCoord2f(texInst.uv[i].x, texInst.uv[i].y);
@@ -2094,12 +2092,12 @@ namespace def
 
 	void Platform_GLFW3::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		GameEngine::s_Engine->m_KeyNewState[size_t(GameEngine::s_KeysTable[key])] = (action == GLFW_PRESS);
+		GameEngine::s_Engine->m_KeyNewState[size_t(GameEngine::s_KeysTable[key])] = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
 
 	void Platform_GLFW3::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		GameEngine::s_Engine->m_MouseNewState[button] = (action == GLFW_PRESS);
+		GameEngine::s_Engine->m_MouseNewState[button] = (action == GLFW_PRESS || action == GLFW_REPEAT);
 	}
 
 	void Platform_GLFW3::Destroy() const
@@ -2535,25 +2533,20 @@ namespace def
 		m_AppName = "Undefined";
 		m_MousePos = { -1, -1 };
 
-		m_DrawTarget = nullptr;
-
-		m_ClearBufferColour = { 255, 255, 255, 255 };
+		m_BackgroundColour = { 255, 255, 255, 255 };
 		m_ConsoleBackgroundColour = { 0, 0, 255, 100 };
-
-		m_PixelMode = Pixel::Mode::DEFAULT;
-		m_TextureStructure = Texture::Structure::FAN;
 
 		m_CaptureText = false;
 		m_Caps = false;
-		m_ShowConsole = false;
+		m_TabSize = 0;
 
 		m_DeltaTime = 0.0f;
 		m_TickTimer = 0.0f;
 
-		m_Shader = nullptr;
 		s_Engine = this;
 
 		m_PickedConsoleHistoryCommand = 0;
+		m_PickedLayer = 0;
 		m_CursorPos = 0;
 
 		MakeUnitCircle(s_UnitCircle, 64); // TODO: Make 64 (vertices count) as constant
@@ -2576,13 +2569,18 @@ namespace def
 
 	void GameEngine::Destroy()
 	{
-		delete m_Screen;
+		for (auto& layer : m_Layers)
+		{
+			if (layer.pixels)
+				delete layer.pixels;
+		}
+
 		m_Platform->Destroy();
 	}
 
 	void GameEngine::ScanHardware(KeyState* data, bool* newState, bool* oldState, size_t count)
 	{
-		for (int i = 0; i < count; i++)
+		for (size_t i = 0; i < count; i++)
 		{
 			data[i].pressed = false;
 			data[i].released = false;
@@ -2673,7 +2671,7 @@ namespace def
 				{
 					OnTextCapturingComplete(m_TextInput);
 
-					if (m_ShowConsole)
+					if (IsConsoleEnabled())
 					{
 						std::stringstream output;
 						Pixel colour = WHITE;
@@ -2689,7 +2687,7 @@ namespace def
 					m_CursorPos = 0;
 				}
 
-				if (m_ShowConsole)
+				if (IsConsoleEnabled())
 				{
 					if (!m_ConsoleHistory.empty())
 					{
@@ -2727,19 +2725,22 @@ namespace def
 
 			m_ScrollDelta = 0;
 
-			if (m_ShowConsole)
+			if (IsConsoleEnabled())
 			{
+				int currentLayer = m_PickedLayer;
+				PickLayer(m_ConsoleLayer);
+
 				FillTextureRectangle({ 0, 0 }, m_ScreenSize, m_ConsoleBackgroundColour);
 
 				int printCount = std::min(ScreenHeight() / 22, (int)m_ConsoleHistory.size());
 				int start = m_ConsoleHistory.size() - printCount;
 
-				for (int i = start; i < m_ConsoleHistory.size(); i++)
+				for (size_t i = start; i < m_ConsoleHistory.size(); i++)
 				{
 					auto& entry = m_ConsoleHistory[i];
 
-					DrawTextureString({ 10, 10 + (i - start) * 20 }, "> " + entry.command);
-					DrawTextureString({ 10, 20 + (i - start) * 20 }, entry.output, entry.outputColour);
+					DrawTextureString({ 10, 10 + int(i - start) * 20 }, "> " + entry.command);
+					DrawTextureString({ 10, 20 + int(i - start) * 20 }, entry.output, entry.outputColour);
 				}
 
 				int x = GetCursorPos() * 8 + 36;
@@ -2747,23 +2748,35 @@ namespace def
 
 				DrawTextureString({ 20, y }, "> " + GetCapturedText(), YELLOW);
 				DrawTextureLine({ x, y }, { x, y + 8 }, RED);
+
+				PickLayer(currentLayer);
 			}
 
-			m_Platform->ClearBuffer(m_ClearBufferColour);
+			m_Platform->ClearBuffer(m_BackgroundColour);
 			m_Platform->OnBeforeDraw();
 
-			if (!m_OnlyTextures)
+			for (auto iter = m_Layers.rbegin(); iter != m_Layers.rend(); iter++)
 			{
-				m_DrawTarget->UpdateTexture();
+				if (!m_OnlyTextures)
+				{
+					if (iter->update)
+						iter->pixels->UpdateTexture();
 
-				m_Platform->BindTexture(m_DrawTarget->texture->id);
-				m_Platform->DrawQuad(m_ClearBufferColour);
+					if (iter->visible)
+					{
+						m_Platform->BindTexture(iter->pixels->texture->id);
+						m_Platform->DrawQuad(iter->tint);
+					}
+				}
+
+				if (iter->visible)
+				{
+					for (auto& texture : iter->textures)
+						m_Platform->DrawTexture(texture);
+				}
+
+				iter->textures.clear();
 			}
-
-			for (const auto& texture : m_Textures)
-				m_Platform->DrawTexture(texture);
-
-			m_Textures.clear();
 
 			if (!OnAfterDraw())
 				m_IsAppRunning = false;
@@ -2777,7 +2790,7 @@ namespace def
 
 			if (m_TickTimer >= 1.0f)
 			{
-				m_Platform->SetTitle("github.com/defini7 - defGameEngine - " + m_AppName + " - FPS: " + std::to_string(m_FramesCount));
+				m_Platform->SetTitle("defini7.github.io - defGameEngine - " + m_AppName + " - FPS: " + std::to_string(m_FramesCount));
 
 				m_TickTimer = 0.0f;
 				m_FramesCount = 0;
@@ -2807,7 +2820,7 @@ namespace def
 		m_TimeStart = std::chrono::system_clock::now();
 		m_TimeEnd = m_TimeStart;
 
-		for (int i = 0; i < (size_t)Key::KEYS_COUNT; i++)
+		for (size_t i = 0; i < (size_t)Key::KEYS_COUNT; i++)
 		{
 			m_Keys[i] = { false, false, false };
 			m_KeyOldState[i] = false;
@@ -2822,11 +2835,11 @@ namespace def
 		}
 
 #ifdef PLATFORM_EMSCRIPTEN
-		m_Platform->SetTitle("github.com/defini7 - defGameEngine - " + m_AppName);
+		m_Platform->SetTitle("defini7.github.io - defGameEngine - " + m_AppName);
 
 		emscripten_set_main_loop(&Platform_Emscripten::MainLoop, 0, 1);
 #else
-		m_Platform->SetTitle("github.com/defini7 - defGameEngine - " + m_AppName + " - FPS: 0");
+		m_Platform->SetTitle("defini7.github.io - defGameEngine - " + m_AppName + " - FPS: 0");
 		m_FramesCount = 0;
 
 		while (m_IsAppRunning)
@@ -2865,11 +2878,8 @@ namespace def
 		if (!m_Platform->ConstructWindow(m_ScreenSize, m_PixelSize, m_WindowSize, vsync, fullScreen, dirtyPixel))
 			return false;
 
-		if (!m_OnlyTextures)
-		{
-			m_Screen = new Graphic(m_ScreenSize);
-			m_DrawTarget = m_Screen;
-		}
+		m_ConsoleLayer = CreateLayer({ 0, 0 }, m_ScreenSize, false, false);
+		m_PickedLayer = CreateLayer({ 0, 0 }, m_ScreenSize);
 
 		std::string data =
 			"?Q`0001oOch0o01o@F40o0<AGD4090LAGD<090@A7ch0?00O7Q`0600>00000000"
@@ -2923,15 +2933,17 @@ namespace def
 
 	bool GameEngine::Draw(int x, int y, const Pixel& col)
 	{
-		if (!m_DrawTarget)
+		Layer& layer = m_Layers[m_PickedLayer];
+
+		if (!layer.target)
 			return false;
 
-		Sprite* target = m_DrawTarget->sprite;
+		Sprite* target = layer.target->sprite;
 
-		switch (m_PixelMode)
+		switch (layer.pixelMode)
 		{
 		case Pixel::Mode::CUSTOM:
-			return target->SetPixel(x, y, m_Shader({ x, y }, target->GetPixel(x, y), col));
+			return target->SetPixel(x, y, layer.shader({ x, y }, target->GetPixel(x, y), col));
 
 		case Pixel::Mode::DEFAULT:
 			return target->SetPixel(x, y, col);
@@ -3541,10 +3553,12 @@ namespace def
 
 	void GameEngine::DrawWarpedTexture(const std::vector<vf2d>& points, const Texture* tex, const Pixel& tint)
 	{
+		auto& layer = m_Layers[m_PickedLayer];
+
 		TextureInstance texInst;
 
 		texInst.texture = tex;
-		texInst.structure = m_TextureStructure;
+		texInst.structure = layer.textureStructure;
 		texInst.points = 4;
 		texInst.tint = { tint, tint, tint, tint };
 		texInst.vertices.resize(texInst.points);
@@ -3575,7 +3589,7 @@ namespace def
 				texInst.vertices[i] = { (points[i].x * m_InvScreenSize.x) * 2.0f - 1.0f, ((points[i].y * m_InvScreenSize.y) * 2.0f - 1.0f) * -1.0f };
 			}
 
-			m_Textures.push_back(texInst);
+			layer.textures.push_back(texInst);
 		}
 	}
 
@@ -3621,7 +3635,7 @@ namespace def
 			{
 				float angle = 0.0f;
 
-				for (int i = 0; i < verts; i++)
+				for (size_t i = 0; i < verts; i++)
 					angle += GetAngle(coordinates[i] - p, coordinates[(i + 1) % verts] - p);
 
 				return std::abs(angle) >= 3.14159f;
@@ -3648,7 +3662,7 @@ namespace def
 			}
 	}
 
-	void GameEngine::DrawString(int x, int y, std::string_view s, const Pixel& col, int scaleX, int scaleY)
+	void GameEngine::DrawString(int x, int y, std::string_view s, const Pixel& col, uint32_t scaleX, uint32_t scaleY)
 	{
 		int sx = 0;
 		int sy = 0;
@@ -3697,7 +3711,7 @@ namespace def
 
 	void GameEngine::Clear(const Pixel& col)
 	{
-		m_DrawTarget->sprite->SetPixelData(col);
+		m_Layers[m_PickedLayer].target->sprite->SetPixelData(col);
 	}
 
 	KeyState GameEngine::GetKey(Key k) const { return m_Keys[static_cast<size_t>(k)]; }
@@ -3725,13 +3739,13 @@ namespace def
 
 	void GameEngine::SetDrawTarget(Graphic* target)
 	{
-		m_DrawTarget = target ? target : m_Screen;
-		m_DrawTarget->UpdateTexture();
+		m_Layers[m_PickedLayer].target = target ? target : m_Layers[m_PickedLayer].pixels;
+		m_Layers[m_PickedLayer].target->UpdateTexture();
 	}
 
 	Graphic* GameEngine::GetDrawTarget()
 	{
-		return m_DrawTarget;
+		return m_Layers[m_PickedLayer].target;
 	}
 
 	void GameEngine::SetTitle(std::string_view title)
@@ -3746,22 +3760,22 @@ namespace def
 
 	void GameEngine::SetPixelMode(Pixel::Mode pixelMode)
 	{
-		m_PixelMode = pixelMode;
+		m_Layers[m_PickedLayer].pixelMode = pixelMode;
 	}
 
 	Pixel::Mode GameEngine::GetPixelMode() const
 	{
-		return m_PixelMode;
+		return m_Layers[m_PickedLayer].pixelMode;
 	}
 
 	void GameEngine::SetTextureStructure(Texture::Structure textureStructure)
 	{
-		m_TextureStructure = textureStructure;
+		m_Layers[m_PickedLayer].textureStructure = textureStructure;
 	}
 
 	Texture::Structure GameEngine::GetTextureStructure() const
 	{
-		return m_TextureStructure;
+		return m_Layers[m_PickedLayer].textureStructure;
 	}
 
 	bool GameEngine::Draw(const vi2d& pos, const Pixel& p)
@@ -3808,7 +3822,7 @@ namespace def
 			texInst.vertices[i].y = 1.0f - verts[i].y * m_InvScreenSize.y * 2.0f;
 		}
 
-		m_Textures.push_back(texInst);
+		m_Layers[m_PickedLayer].textures.push_back(texInst);
 	}
 
 	void GameEngine::DrawTextureLine(const vi2d& pos1, const vi2d& pos2, const Pixel& col)
@@ -3943,6 +3957,8 @@ namespace def
 
 	void GameEngine::DrawTexture(const vf2d& pos, const Texture* tex, const vf2d& scale, const Pixel& tint)
 	{
+		auto& layer = m_Layers[m_PickedLayer];
+
 		vf2d pos1 = (pos * m_InvScreenSize * 2.0f - 1.0f) * vf2d(1.0f, -1.0f);
 		vf2d pos2 = pos1 + 2.0f * tex->size * m_InvScreenSize * scale * vf2d(1.0f, -1.0f);
 
@@ -3950,16 +3966,17 @@ namespace def
 
 		texInst.texture = tex;
 		texInst.points = 4;
-		texInst.structure = m_TextureStructure;
+		texInst.structure = layer.textureStructure;
 		texInst.tint = { tint, tint, tint, tint };
 		texInst.vertices = { pos1, { pos1.x, pos2.y }, pos2, { pos2.x, pos1.y } };
 
-
-		m_Textures.push_back(texInst);
+		layer.textures.push_back(texInst);
 	}
 
 	void GameEngine::DrawPartialTexture(const vf2d& pos, const Texture* tex, const vf2d& filePos, const vf2d& fileSize, const vf2d& scale, const Pixel& tint)
 	{
+		auto& layer = m_Layers[m_PickedLayer];
+
 		vf2d screenPos1 = (pos * m_InvScreenSize * 2.0f - 1.0f) * vf2d(1.0f, -1.0f);
 		vf2d screenPos2 = ((pos + fileSize * scale) * m_InvScreenSize * 2.0f - 1.0f) * vf2d(1.0f, -1.0f);
 
@@ -3973,24 +3990,24 @@ namespace def
 
 		texInst.texture = tex;
 		texInst.points = 4;
-		texInst.structure = m_TextureStructure;
+		texInst.structure = layer.textureStructure;
 		texInst.tint = { tint, tint, tint, tint };
 		texInst.vertices = { quantPos1, { quantPos1.x, quantPos2.y }, quantPos2, { quantPos2.x, quantPos1.y } };
 		texInst.uv = { tl, { tl.x, br.y }, br, { br.x, tl.y } };
 
-
-		m_Textures.push_back(texInst);
+		layer.textures.push_back(texInst);
 	}
 
 	void GameEngine::DrawRotatedTexture(const vf2d& pos, const Texture* tex, float rotation, const vf2d& center, const vf2d& scale, const Pixel& tint)
 	{
+		auto& layer = m_Layers[m_PickedLayer];
+
 		TextureInstance texInst;
 
 		texInst.texture = tex;
 		texInst.points = 4;
-		texInst.structure = m_TextureStructure;
+		texInst.structure = layer.textureStructure;
 		texInst.tint = { tint, tint, tint, tint };
-
 
 		vf2d denormCenter = center * tex->size;
 
@@ -4002,7 +4019,7 @@ namespace def
 		};
 
 		float c = cos(rotation), s = sin(rotation);
-		for (int i = 0; i < texInst.points; i++)
+		for (size_t i = 0; i < texInst.points; i++)
 		{
 			vf2d offset =
 			{
@@ -4015,18 +4032,19 @@ namespace def
 			texInst.vertices[i].y *= -1.0f;
 		}
 
-		m_Textures.push_back(texInst);
+		layer.textures.push_back(texInst);
 	}
 
 	void GameEngine::DrawPartialRotatedTexture(const vf2d& pos, const Texture* tex, const vf2d& filePos, const vf2d& fileSize, float rotation, const vf2d& center, const vf2d& scale, const Pixel& tint)
 	{
+		auto& layer = m_Layers[m_PickedLayer];
+
 		TextureInstance texInst;
 
 		texInst.texture = tex;
 		texInst.points = 4;
-		texInst.structure = m_TextureStructure;
+		texInst.structure = layer.textureStructure;
 		texInst.tint = { tint, tint, tint, tint };
-
 
 		vf2d denormCenter = center * fileSize;
 
@@ -4038,7 +4056,7 @@ namespace def
 		};
 
 		float c = cos(rotation), s = sin(rotation);
-		for (int i = 0; i < texInst.points; i++)
+		for (size_t i = 0; i < texInst.points; i++)
 		{
 			vf2d offset =
 			{
@@ -4056,7 +4074,7 @@ namespace def
 
 		texInst.uv = { tl, { tl.x, br.y }, br, { br.x, tl.y } };
 
-		m_Textures.push_back(texInst);
+		layer.textures.push_back(texInst);
 	}
 
 	void GameEngine::DrawWireFrameModel(const std::vector<vf2d>& modelCoordinates, const vf2d& pos, float rotation, float scale, const Pixel& col)
@@ -4069,7 +4087,7 @@ namespace def
 		FillWireFrameModel(modelCoordinates, pos.x, pos.y, rotation, scale, col);
 	}
 
-	void GameEngine::DrawString(const vi2d& pos, std::string_view text, const Pixel& col, const vi2d& scale)
+	void GameEngine::DrawString(const vi2d& pos, std::string_view text, const Pixel& col, const vec2d<uint32_t>& scale)
 	{
 		DrawString(pos.x, pos.y, text, col, scale.x, scale.y);
 	}
@@ -4096,13 +4114,15 @@ namespace def
 
 	void GameEngine::ClearTexture(const Pixel& col)
 	{
-		m_ClearBufferColour = col;
+		m_BackgroundColour = col;
 	}
 
 	void GameEngine::SetShader(Pixel(*func)(const vi2d&, const Pixel&, const Pixel&))
 	{
-		m_Shader = func;
-		m_PixelMode = m_Shader ? Pixel::Mode::CUSTOM : Pixel::Mode::DEFAULT;
+		auto& layer = m_Layers[m_PickedLayer];
+
+		layer.shader = func;
+		layer.pixelMode = func ? Pixel::Mode::CUSTOM : Pixel::Mode::DEFAULT;
 	}
 
 	void GameEngine::CaptureText(bool enable)
@@ -4128,7 +4148,9 @@ namespace def
 
 	void GameEngine::ShowConsole(bool enable)
 	{
-		m_ShowConsole = enable;
+		auto& layer = m_Layers[m_ConsoleLayer];
+		layer.visible = enable;
+		layer.update = enable;
 		m_CaptureText = enable;
 	}
 
@@ -4150,7 +4172,7 @@ namespace def
 
 	bool GameEngine::IsConsoleEnabled() const
 	{
-		return m_ShowConsole;
+		return m_Layers[m_ConsoleLayer].visible;
 	}
 
 	bool GameEngine::IsCaps() const
@@ -4166,6 +4188,40 @@ namespace def
 	float GameEngine::GetDeltaTime() const
 	{
 		return m_DeltaTime;
+	}
+
+	size_t GameEngine::CreateLayer(const vi2d& offset, const vi2d& size, bool update, bool visible, const Pixel& tint)
+	{
+		Layer layer;
+		layer.offset = offset;
+		layer.size = size;
+
+		if (!m_OnlyTextures)
+			layer.pixels = new Graphic(size);
+
+		layer.update = update;
+		layer.visible = visible;
+		layer.tint = tint;
+		layer.target = layer.pixels;
+
+		m_Layers.push_back(std::move(layer));
+		return m_Layers.size() - 1;
+	}
+
+	void GameEngine::PickLayer(size_t layer)
+	{
+		if (layer < m_Layers.size())
+			m_PickedLayer = layer;
+	}
+
+	size_t GameEngine::GetPickedLayer() const
+	{
+		return m_PickedLayer;
+	}
+
+	Layer* GameEngine::GetLayerByIndex(size_t index)
+	{
+		return &m_Layers[index];
 	}
 
 #endif

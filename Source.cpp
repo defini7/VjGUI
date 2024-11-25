@@ -20,7 +20,7 @@ public:
 	def::gui::Button* button;
 	def::gui::TextEntry* textentry;
 	def::gui::List* list;
-	def::gui::Slider<int>* slider;
+	//def::gui::Slider<int>* slider;
 
 	def::gui::Theme theme;
 
@@ -60,7 +60,7 @@ protected:
 
 		list = new def::gui::List(panel, { 20, 80 }, { 20, 10 });
 
-		slider = new def::gui::Slider<int>(panel, { 250, 60 }, { 300, 60 }, { 5, 5 }, -10, 10);
+		//slider = new def::gui::Slider<int>(panel, { 250, 60 }, { 300, 60 }, { 5, 5 }, -10, 10);
 
 		return true;
 	}
@@ -72,7 +72,7 @@ protected:
 		ClearTexture(def::BLACK);
 		manager->Draw(theme);
 
-		DrawTextureString({ 10, 10 }, std::to_string(slider->GetValue()));
+		//DrawTextureString({ 10, 10 }, std::to_string(slider->GetValue()));
 
 		return true;
 	}

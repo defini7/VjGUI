@@ -3,14 +3,15 @@
 
 namespace def::gui
 {
-	Component::Component(Component* parent) : m_EnableLight(false), m_IsFocused(false), m_Parent(parent)
+	Component::Component(Component* parent)
+		: m_EnableLight(false), m_IsFocused(false), m_Parent(parent), m_IsVisible(true), m_Align(Align::LEFT)
 	{
 		if (parent)
 			parent->AddComponent(this);
 	}
 
 	Component::Component(Component* parent, const Vector2i& pos, const Vector2i& size)
-		: m_EnableLight(false), m_IsFocused(false), m_Size(size), m_Parent(parent)
+		: m_EnableLight(false), m_IsFocused(false), m_Size(size), m_Parent(parent), m_IsVisible(true)
 	{
 		if (parent)
 			parent->AddComponent(this);
@@ -25,11 +26,15 @@ namespace def::gui
 
 	Vector2i Component::LocalToGlobalPosition(Component* parent, const Vector2i& pos)
 	{
-		// TODO: Make title bar size as constant
-		Vector2i output = Vector2i(1, 20) + pos;
+		Vector2i output = pos;
 
 		if (parent)
 			output += parent->m_GlobalPosition;
+		else
+		{
+			// TODO: Make title bar size as constant
+			output += Vector2i(1, 20);
+		}
 
 		return output;
 	}
@@ -38,6 +43,8 @@ namespace def::gui
 	{
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
+
+		bool light = false;
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
 		{
@@ -49,7 +56,7 @@ namespace def::gui
 				HandleEvent(this, { Event::Type::Component_Focused });
 			}
 
-			return true;
+			light = true;
 		}
 		else
 		{
@@ -60,12 +67,25 @@ namespace def::gui
 			}
 		}
 
-		return false;
+		for (auto& component : m_Children)
+		{
+			if (component->m_IsVisible)
+			{
+				component->UpdatePosition();
+				component->m_EnableLight = component->Update(platform);
+			}
+		}
+
+		return light;
 	}
 
 	void Component::Draw(Platform* platform, const Theme& theme) const
 	{
-
+		for (auto& component : m_Children)
+		{
+			if (component->m_IsVisible)
+				component->Draw(platform, theme);
+		}
 	}
 
 	Vector2i Component::GetPosition() const
@@ -91,6 +111,7 @@ namespace def::gui
 
 	void Component::UpdatePosition()
 	{
+		// TODO: Make the title bar size as const
 		m_GlobalPosition = Vector2i(1, 20) + m_LocalPosition;
 
 		if (m_Parent)
@@ -115,6 +136,16 @@ namespace def::gui
 	void Component::EnableLight(bool enable)
 	{
 		m_EnableLight = enable;
+	}
+
+	void Component::Show(bool enable)
+	{
+		m_IsVisible = enable;
+	}
+
+	bool Component::IsVisible() const
+	{
+		return m_IsVisible;
 	}
 
 	std::list<Component*>& Component::GetChildren()

@@ -9,10 +9,10 @@ namespace def::gui
 	class Slider : public Component
 	{
 	public:
-		Slider(Component* parent, const Vector2i& start, const Vector2i& end, const Vector2i& size, const T& min_value, const T& max_value, const T& value = 0.0f)
+		Slider(Component* parent, const Vector2i& start, const Vector2i& end, const Vector2i& size, const T& min_value, const T& max_value, const T& value = 0)
 			: Component(parent), m_MinValue(min_value), m_MaxValue(max_value), m_Value(value), m_LocalEndPosition(end), m_Held(false)
 		{
-			SetSize(size);
+			m_Size = size;
 			SetPosition(start);
 
 			m_GlobalEndPosition = LocalToGlobalPosition(parent, end);
@@ -24,8 +24,6 @@ namespace def::gui
 	public:
 		bool Update(Platform* platform) override
 		{
-			m_GlobalEndPosition = LocalToGlobalPosition(m_Parent, m_LocalEndPosition);
-
 			Vector2i mousePos = platform->GetMousePosition();
 			HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
@@ -63,8 +61,6 @@ namespace def::gui
 
 					if (m_Value < m_MinValue) m_Value = m_MinValue;
 					if (m_Value > m_MaxValue) m_Value = m_MaxValue;
-
-					UpdateSliderPosition();
 				}
 			}
 
@@ -77,23 +73,32 @@ namespace def::gui
 
 			platform->FillRect(m_SliderPosition, m_Size, theme.componentBackground);
 			platform->DrawRect(m_SliderPosition, m_Size, theme.border);
+
+			Component::Draw(platform, theme);
 		}
 
-		void SetValue(const T& value)
-		{
-			m_Value = value;
-		}
+		T GetValue() const { return m_Value; }
+		T GetMaxValue() const { return m_MaxValue; }
+		T GetMinValue() const { return m_MinValue; }
 
-		T GetValue() const
-		{
-			return m_Value;
-		}
+		void SetValue(const T& value) { m_Value = value; }
+		void SetMaxValue(const T& value) { m_MaxValue = value; }
+		void SetMinValue(const T& value) { m_MinValue = value; }
 
 	private:
 		void UpdateSliderPosition()
 		{
-			auto offset = (m_LocalEndPosition - m_LocalPosition) * (m_Value - m_MinValue) / (m_MaxValue - m_MinValue);
+			const auto offset = (m_LocalEndPosition - m_LocalPosition) * (m_Value - m_MinValue) / (m_MaxValue - m_MinValue);
 			m_SliderPosition = LocalToGlobalPosition(m_Parent, m_LocalPosition - m_Size / 2 + offset);
+		}
+
+		void UpdatePosition() override
+		{
+			Component::UpdatePosition();
+
+			m_GlobalPosition = LocalToGlobalPosition(m_Parent, m_LocalPosition);
+			m_GlobalEndPosition = LocalToGlobalPosition(m_Parent, m_LocalEndPosition);
+			UpdateSliderPosition();
 		}
 
 	private:

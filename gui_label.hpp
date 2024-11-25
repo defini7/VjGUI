@@ -35,9 +35,13 @@ namespace def::gui
 		virtual void SetTextAlign(Align align);
 
 	private:
+		// For each string in line we calculate it's position and push it to the m_TextSplitted
 		void UpdateTextPosition(const std::vector<std::string>& lines);
+
+		// Split the m_Text by '\n' symbol and push it to lines
 		void SplitTextIntoLines(std::vector<std::string>& lines);
 
+		// Perform SplitTextIntoLines and UpdateTextPosition if m_ForceUpdateOffset flag was set to true
 		void UpdateText();
 
 	private:
@@ -57,6 +61,7 @@ namespace def::gui
 
 		bool m_ForceUpdateOffset;
 
+		// Index that we start rendering text from
 		size_t m_ViewStart;
 
 	};

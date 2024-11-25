@@ -26,7 +26,7 @@ namespace def::gui
 		Vector2i GetSize() const;
 		void SetSize(const Vector2i& size);
 
-		void UpdatePosition();
+		virtual void UpdatePosition();
 
 		Component* GetParent() const;
 		void SetParent(Component* parent);
@@ -35,6 +35,9 @@ namespace def::gui
 		void SetAlign(Align align);
 
 		void EnableLight(bool enable);
+		void Show(bool enable);
+
+		bool IsVisible() const;
 
 		template <class T>
 		T* AddComponent(T* component)
@@ -63,8 +66,7 @@ namespace def::gui
 
 		bool m_EnableLight;
 		bool m_IsFocused;
-
-		Event m_LastEvent;
+		bool m_IsVisible;
 
 	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gui_label.hpp"
+#include "gui_slider.hpp"
 
 namespace def::gui
 {
@@ -18,7 +19,12 @@ namespace def::gui
 		void Draw(Platform* platform, const Theme& theme) const override;
 
 	private:
+		void ConstructSlider();
+
+	private:
 		std::vector<std::string> m_Items;
+
+		Slider<int>* m_Slider;
 
 	};
 }

@@ -37,7 +37,6 @@ namespace def::gui
 	bool Label::Update(Platform* platform)
 	{
 		UpdateText();
-
 		return Component::Update(platform);
 	}
 
@@ -57,6 +56,8 @@ namespace def::gui
 
 			platform->DrawText(pos, unit.text, theme.text);
 		}
+
+		Component::Draw(platform, theme);
 	}
 
 	Vector2i Label::GetSize() const
@@ -86,31 +87,37 @@ namespace def::gui
 		m_TextSplitted.clear();
 		m_TextSplitted.resize(lines.size());
 
-		for (size_t i = m_ViewStart; i < lines.size() + m_ViewStart; i++)
+		for (size_t i = 0; i < lines.size(); i++)
 		{
+			size_t offset = i + m_ViewStart;
+
 			auto& unit = m_TextSplitted[i];
-			unit.text = lines[i];
 
-			int length = lines[i].length();
-
-			switch (m_TextAlign)
+			if (offset < lines.size())
 			{
-			case Align::LEFT: unit.offset = { 0, 0 }; break;
-			case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
-			case Align::RIGHT: unit.offset = { m_Size.x - length * 8 - 2, 0 }; break;
-			}
+				unit.text = lines[offset];
 
-			unit.offset += 2;
+				int length = unit.text.length();
+
+				switch (m_TextAlign)
+				{
+				case Align::LEFT:   unit.offset = { 0, 0 };                             break;
+				case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
+				case Align::RIGHT:  unit.offset = { m_Size.x - length * 8 - 2, 0 };     break;
+				}
+
+				unit.offset += 2;
+			}
 		}
 	}
 
 	void Label::SplitTextIntoLines(std::vector<std::string>& lines)
 	{
+		if (m_Text.empty())
+			return;
+
 		if (m_Text.find('\n') == std::string::npos)
-		{
-			if (!m_Text.empty())
-				lines.push_back(m_Text);
-		}
+			lines.push_back(m_Text);
 		else
 		{
 			std::string buffer;
@@ -126,8 +133,7 @@ namespace def::gui
 					buffer += c;
 			}
 
-			if (!buffer.empty())
-				lines.push_back(buffer);
+			lines.push_back(buffer);
 		}
 	}
 

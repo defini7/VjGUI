@@ -89,5 +89,7 @@ namespace def::gui
 			else
 				platform->DrawText(pos, unit.text, theme.text);
 		}
+
+		Component::Draw(platform, theme);
 	}
 }

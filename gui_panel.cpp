@@ -54,8 +54,11 @@ namespace def::gui
 
 		for (auto& component : m_Children)
 		{
-			component->UpdatePosition();
-			component->EnableLight(component->Update(platform));
+			if (m_IsVisible)
+			{
+				component->UpdatePosition();
+				component->EnableLight(component->Update(platform));
+			}
 		}
 
 		return false;
@@ -68,7 +71,6 @@ namespace def::gui
 		platform->DrawRect(m_GlobalPosition, m_Size, theme.border);
 		platform->FillRect(m_GlobalPosition, { m_Size.x, 20 }, theme.titleBar);
 		
-		for (auto& component : m_Children)
-			component->Draw(platform, theme);
+		Component::Draw(platform, theme);
 	}
 }

@@ -130,6 +130,8 @@ namespace def::gui
 
 			platform->DrawLine(cursor, { cursor.x, cursor.y + 8 }, theme.cursor);
 		}
+
+		Component::Draw(platform, theme);
 	}
 
 	void TextEntry::SetCursorPos(uint32_t pos)

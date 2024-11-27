@@ -2576,6 +2576,7 @@ namespace def
 		}
 
 		m_Platform->Destroy();
+		delete m_Platform;
 	}
 
 	void GameEngine::ScanHardware(KeyState* data, bool* newState, bool* oldState, size_t count)

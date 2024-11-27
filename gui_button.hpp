@@ -16,9 +16,9 @@ namespace def::gui
 		void Draw(Platform* platform, const Theme& theme) const override;
 
 	private:
-		bool m_Pressed;
-		bool m_Held;
-		bool m_Released;
+		bool m_Pressed = false;
+		bool m_Held = false;
+		bool m_Released = false;
 
 	};
 }

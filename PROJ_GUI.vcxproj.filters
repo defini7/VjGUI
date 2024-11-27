@@ -27,9 +27,6 @@
     <ClCompile Include="gui_panel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_platform.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="gui_platform_defGameEngine.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="gui_button.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="gui_eventhandler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="gui_utils.cpp">

@@ -2,12 +2,12 @@
 
 namespace def::gui
 {
-	Button::Button(Panel* parent) : Label(parent), m_Pressed(false), m_Held(false), m_Released(false)
+	Button::Button(Panel* parent) : Label(parent)
 	{
 	}
 
 	Button::Button(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
-		: Label(parent, text, pos, size), m_Pressed(false), m_Held(false), m_Released(false)
+		: Label(parent, text, pos, size)
 	{
 	}
 
@@ -82,12 +82,12 @@ namespace def::gui
 			auto& unit = m_TextSplitted[i];
 
 			Vector2i pos = m_GlobalPosition + unit.offset;
-			pos.y += 8 * i;
+			pos.y += Platform::CHAR_SIZE.y * i;
 
 			if (m_EnableLight)
-				platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
+				platform->DrawText(pos, unit.text, theme.ApplyLight(theme.textRegular));
 			else
-				platform->DrawText(pos, unit.text, theme.text);
+				platform->DrawText(pos, unit.text, theme.textRegular);
 		}
 
 		Component::Draw(platform, theme);

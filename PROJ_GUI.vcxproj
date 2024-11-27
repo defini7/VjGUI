@@ -141,11 +141,9 @@
   <ItemGroup>
     <ClCompile Include="gui_button.cpp" />
     <ClCompile Include="gui_component.cpp" />
-    <ClCompile Include="gui_eventhandler.cpp" />
     <ClCompile Include="gui_list.cpp" />
     <ClCompile Include="gui_manager.cpp" />
     <ClCompile Include="gui_panel.cpp" />
-    <ClCompile Include="gui_platform.cpp" />
     <ClCompile Include="gui_platform_defGameEngine.cpp" />
     <ClCompile Include="gui_label.cpp" />
     <ClCompile Include="gui_textentry.cpp" />

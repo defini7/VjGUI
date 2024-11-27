@@ -32,7 +32,7 @@ namespace def::gui
 		{
 			using KeyType = HardwareButton::KeyType;
 
-			bool isUp = platform->GetKey(KeyType::LEFT_SHIFT).held || platform->GetKey(KeyType::RIGHT_SHIFT).held;
+			bool isUp = platform->GetKey(KeyType::LEFT_SHIFT).held || platform->GetKey(KeyType::RIGHT_SHIFT).held || platform->IsCaps();
 
 			if (m_Text.size() < m_CharsSize.x)
 			{
@@ -115,20 +115,20 @@ namespace def::gui
 				auto& unit = m_TextSplitted[i];
 
 				Vector2i pos = m_GlobalPosition + unit.offset;
-				pos.y += 8 * i;
+				pos.y += Platform::CHAR_SIZE.y * i;
 
 				if (m_EnableLight)
-					platform->DrawText(pos, unit.text, theme.ApplyLight(theme.text));
+					platform->DrawText(pos, unit.text, theme.ApplyLight(theme.textRegular));
 				else
-					platform->DrawText(pos, unit.text, theme.text);
+					platform->DrawText(pos, unit.text, theme.textRegular);
 			}
 		}
 
 		if (m_IsFocused && m_Ticks >= CURSOR_HIDE_DELAY)
 		{
-			Vector2i cursor = { m_GlobalPosition.x + m_CursorPos * 8 + 2, m_GlobalPosition.y + 1 };
+			Vector2i cursor = { m_GlobalPosition.x + m_CursorPos * Platform::CHAR_SIZE.x + 2, m_GlobalPosition.y + 1 };
 
-			platform->DrawLine(cursor, { cursor.x, cursor.y + 8 }, theme.cursor);
+			platform->DrawLine(cursor, { cursor.x, cursor.y + Platform::CHAR_SIZE.y }, theme.cursor);
 		}
 
 		Component::Draw(platform, theme);

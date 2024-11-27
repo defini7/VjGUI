@@ -17,7 +17,11 @@ namespace def::gui
 	public:
 		static Vector2i LocalToGlobalPosition(Component* parent, const Vector2i& pos);
 
+		// Only if visible flag is set to true: updates hover and focus events, then updates position
+		// and calls itself on each child component
 		virtual bool Update(Platform* platform);
+
+		// Draws children components if visible flag is set to true
 		virtual void Draw(Platform* platform, const Theme& theme) const;
 
 		Vector2i GetPosition() const;
@@ -26,6 +30,8 @@ namespace def::gui
 		Vector2i GetSize() const;
 		void SetSize(const Vector2i& size);
 
+		// Updates global position of the component by applying an offset
+		// of the title bar and the offset of the parent
 		virtual void UpdatePosition();
 
 		Component* GetParent() const;
@@ -39,6 +45,7 @@ namespace def::gui
 
 		bool IsVisible() const;
 
+		// !!! Add children components ONLY by using that method !!!
 		template <class T>
 		T* AddComponent(T* component)
 		{
@@ -59,14 +66,14 @@ namespace def::gui
 
 		Vector2i m_Size;
 
-		Component* m_Parent;
+		Component* m_Parent = nullptr;
 		std::list<Component*> m_Children;
 
-		Align m_Align;
+		Align m_Align = Align::LEFT;
 
-		bool m_EnableLight;
-		bool m_IsFocused;
-		bool m_IsVisible;
+		bool m_EnableLight = false;
+		bool m_IsFocused = false;
+		bool m_IsVisible = true;
 
 	};
 }

@@ -13,7 +13,7 @@ namespace def::gui
 
 	Manager::~Manager()
 	{
-
+		delete m_Platform;
 	}
 
 	void Manager::Update()

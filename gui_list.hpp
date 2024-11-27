@@ -24,7 +24,7 @@ namespace def::gui
 	private:
 		std::vector<std::string> m_Items;
 
-		Slider<int>* m_Slider;
+		Slider<int>* m_Slider = nullptr;
 
 	};
 }

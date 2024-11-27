@@ -4,17 +4,15 @@
 
 namespace def::gui
 {
-	Label::Label(Panel* parent) : Component(parent), m_ViewStart(0)
+	Label::Label(Panel* parent) : Component(parent)
 	{
-		SetTextAlign(Align::LEFT);
 	}
 
 	Label::Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
-		: Component(parent), m_ViewStart(0)
+		: Component(parent)
 	{
 		m_Text = text;
 
-		SetTextAlign(Align::LEFT);
 		SetPosition(pos);
 		SetSize(size);
 	}
@@ -52,9 +50,9 @@ namespace def::gui
 			auto& unit = m_TextSplitted[i];
 
 			Vector2i pos = m_GlobalPosition + unit.offset;
-			pos.y += 8 * i;
+			pos.y += Platform::CHAR_SIZE.y * i;
 
-			platform->DrawText(pos, unit.text, theme.text);
+			platform->DrawText(pos, unit.text, theme.textRegular);
 		}
 
 		Component::Draw(platform, theme);
@@ -68,7 +66,7 @@ namespace def::gui
 	void Label::SetSize(const Vector2i& size)
 	{
 		m_CharsSize = size;
-		m_Size = { size.x * 8 + 4, size.y * 8 + 2 };
+		m_Size = { size.x * Platform::CHAR_SIZE.x + 4, size.y * Platform::CHAR_SIZE.y + 2 };
 	}
 
 	Align Label::GetTextAlign() const

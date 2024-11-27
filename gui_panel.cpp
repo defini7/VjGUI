@@ -3,12 +3,12 @@
 
 namespace def::gui
 {
-	Panel::Panel() : Component(), m_Drag(false)
+	Panel::Panel() : Component()
 	{
 	}
 
 	Panel::Panel(const std::string& title, const Vector2i& pos, const Vector2i& size)
-		: Component(nullptr, pos, size), m_Drag(false), m_Title(title)
+		: Component(nullptr, pos, size), m_Title(title)
 	{
 	}
 
@@ -37,8 +37,7 @@ namespace def::gui
 
 			if (mouseState.pressed)
 			{
-				// TODO: Make title bar size constant
-				if (IsPointInRect(mousePos, m_GlobalPosition, Vector2i(m_Size.x, 20)))
+				if (IsPointInRect(mousePos, m_GlobalPosition, Vector2i(m_Size.x, TITLE_BAR_WIDTH)))
 				{
 					m_Drag = true;
 					m_DragOffset = mousePos - m_GlobalPosition;
@@ -66,10 +65,10 @@ namespace def::gui
 
 	void Panel::Draw(Platform* platform, const Theme& theme) const
 	{
-		// TODO: Make thickness of title bar customisable
 		platform->FillRect(m_GlobalPosition, m_Size, theme.panelBackground);
 		platform->DrawRect(m_GlobalPosition, m_Size, theme.border);
-		platform->FillRect(m_GlobalPosition, { m_Size.x, 20 }, theme.titleBar);
+		platform->FillRect(m_GlobalPosition, { m_Size.x, TITLE_BAR_WIDTH }, theme.titleBar);
+		platform->DrawText(m_GlobalPosition + Vector2i(2, TITLE_BAR_WIDTH / 2 - 2), m_Title, theme.textTitle);
 		
 		Component::Draw(platform, theme);
 	}

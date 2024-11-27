@@ -4,14 +4,14 @@
 namespace def::gui
 {
 	Component::Component(Component* parent)
-		: m_EnableLight(false), m_IsFocused(false), m_Parent(parent), m_IsVisible(true), m_Align(Align::LEFT)
+		: m_Parent(parent)
 	{
 		if (parent)
 			parent->AddComponent(this);
 	}
 
 	Component::Component(Component* parent, const Vector2i& pos, const Vector2i& size)
-		: m_EnableLight(false), m_IsFocused(false), m_Size(size), m_Parent(parent), m_IsVisible(true)
+		: m_Size(size), m_Parent(parent)
 	{
 		if (parent)
 			parent->AddComponent(this);
@@ -21,26 +21,33 @@ namespace def::gui
 
 	Component::~Component()
 	{
-
+		for (auto child : m_Children)
+		{
+			if (child)
+				delete child;
+		}
 	}
 
 	Vector2i Component::LocalToGlobalPosition(Component* parent, const Vector2i& pos)
 	{
 		Vector2i output = pos;
 
+		// If there is no parent then we assume that we are on panel
+		// so let's take into account the title bar width
+
 		if (parent)
 			output += parent->m_GlobalPosition;
 		else
-		{
-			// TODO: Make title bar size as constant
-			output += Vector2i(1, 20);
-		}
+			output += Vector2i(1, Panel::TITLE_BAR_WIDTH);
 
 		return output;
 	}
 
 	bool Component::Update(Platform* platform)
 	{
+		if (!m_IsVisible)
+			return false;
+
 		Vector2i mousePos = platform->GetMousePosition();
 		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
@@ -48,12 +55,12 @@ namespace def::gui
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
 		{
-			HandleEvent(this, { Event::Type::Mouse_Hover });
+			HandleEvent(this, Event(Event::Type::Mouse_Hover));
 
 			if (mouse_leftButtonState.pressed)
 			{
 				m_IsFocused = true;
-				HandleEvent(this, { Event::Type::Component_Focused });
+				HandleEvent(this, Event(Event::Type::Component_Focused));
 			}
 
 			light = true;
@@ -63,17 +70,16 @@ namespace def::gui
 			if (mouse_leftButtonState.pressed && m_IsFocused)
 			{
 				m_IsFocused = false;
-				HandleEvent(this, { Event::Type::Component_Unfocused });
+				HandleEvent(this, Event(Event::Type::Component_Unfocused));
 			}
 		}
 
 		for (auto& component : m_Children)
 		{
-			if (component->m_IsVisible)
-			{
+			if (m_IsVisible)
 				component->UpdatePosition();
-				component->m_EnableLight = component->Update(platform);
-			}
+
+			component->m_EnableLight = component->Update(platform);
 		}
 
 		return light;
@@ -81,9 +87,9 @@ namespace def::gui
 
 	void Component::Draw(Platform* platform, const Theme& theme) const
 	{
-		for (auto& component : m_Children)
+		if (m_IsVisible)
 		{
-			if (component->m_IsVisible)
+			for (auto& component : m_Children)
 				component->Draw(platform, theme);
 		}
 	}
@@ -111,8 +117,7 @@ namespace def::gui
 
 	void Component::UpdatePosition()
 	{
-		// TODO: Make the title bar size as const
-		m_GlobalPosition = Vector2i(1, 20) + m_LocalPosition;
+		m_GlobalPosition = Vector2i(1, Panel::TITLE_BAR_WIDTH) + m_LocalPosition;
 
 		if (m_Parent)
 			m_GlobalPosition += m_Parent->m_GlobalPosition;

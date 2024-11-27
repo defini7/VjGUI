@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <any>
 
 namespace def::gui
 {
@@ -18,18 +19,23 @@ namespace def::gui
 			Component_Confirm
 		} type;
 
+		Event(const Type type = Type::None) : type(type)
+		{
+
+		}
+
 		// TODO: Add more events and
 		// some event specific stuff
 	};
 
 	template <class T>
-	using EventHandlerFunc = void (*)(T*, const Event&, void*);
+	using EventHandlerFunc = void (*)(T*, const Event&, const std::any&);
 
 	template <class T>
 	class EventHandler
 	{
 	public:
-		void SetEventHandler(EventHandlerFunc<T> func, void* userData = nullptr)
+		void SetEventHandler(EventHandlerFunc<T> func, const std::any& userData = nullptr)
 		{
 			m_EventHandlerFunc = func;
 			m_UserData = userData;
@@ -43,7 +49,7 @@ namespace def::gui
 		
 	private:
 		EventHandlerFunc<T> m_EventHandlerFunc = nullptr;
-		void* m_UserData = nullptr;
+		std::any m_UserData = nullptr;
 
 	};
 }

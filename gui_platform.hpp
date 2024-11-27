@@ -60,8 +60,10 @@ namespace def::gui
 		virtual HardwareButton GetKey(HardwareButton::KeyType id) const = 0;
 
 		virtual bool IsCaps() const = 0;
-
 		virtual float GetDeltaTime() const = 0;
+
+	public:
+		inline static Vector2i CHAR_SIZE;
 
 	};
 }

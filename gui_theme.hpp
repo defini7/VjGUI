@@ -11,7 +11,8 @@ namespace def::gui
 		Colour border;
 		Colour componentBackground;
 		Colour panelBackground;
-		Colour text;
+		Colour textRegular;
+		Colour textTitle;
 		Colour placeholder;
 		Colour titleBar;
 		Colour cursor;

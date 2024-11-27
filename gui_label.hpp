@@ -46,9 +46,7 @@ namespace def::gui
 
 	private:
 		std::string m_Text;
-
 		Vector2i m_CharsSize;
-
 		Align m_TextAlign;
 
 		struct TextUnit
@@ -57,12 +55,13 @@ namespace def::gui
 			std::string text;
 		};
 
+		// Contains transformed text after calling UpdateTextPosition function
 		std::vector<TextUnit> m_TextSplitted;
 
-		bool m_ForceUpdateOffset;
+		bool m_ForceUpdateOffset = true;
 
 		// Index that we start rendering text from
-		size_t m_ViewStart;
+		size_t m_ViewStart = 0;
 
 	};
 }

@@ -15,7 +15,6 @@ namespace def::gui
 
 	List::~List()
 	{
-		delete m_Slider;
 	}
 
 	void List::AddString(const std::string& data)

@@ -2,6 +2,7 @@
 
 #include <list>
 #include <string>
+#include <memory>
 
 #include "gui_platform.hpp"
 #include "gui_theme.hpp"
@@ -28,7 +29,10 @@ namespace def::gui
 		std::string m_Title;
 
 		Vector2i m_DragOffset;
-		bool m_Drag;
+		bool m_Drag = false;
+
+	public:
+		static constexpr int TITLE_BAR_WIDTH = 20;
 
 	};
 }

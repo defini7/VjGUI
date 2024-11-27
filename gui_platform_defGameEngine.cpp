@@ -60,6 +60,8 @@ namespace def::gui
 			{ ButtonType::MOUSE7, Button::MOUSE7 },
 			{ ButtonType::MOUSE8, Button::MOUSE8 }
 		};
+
+		CHAR_SIZE = { 8, 8 };
 	}
 
 	void Platform_defGameEngine::DrawRect(const Vector2i& pos, const Vector2i& size, const Colour& col)

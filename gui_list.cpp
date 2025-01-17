@@ -24,12 +24,15 @@ namespace def::gui
 		if (!m_IsVisible)
 			return;
 
-		auto& unit = m_TextSplitted[0];
+		if (!m_TextSplitted.empty())
+		{
+			auto& unit = m_TextSplitted[0];
 
-		Vector2i pos = m_GlobalPosition + unit.offset;
-		pos.y += Platform::CHAR_SIZE.y * (m_Index - m_Offset);
+			Vector2i pos = m_GlobalPosition + unit.offset;
+			pos.y += Platform::CHAR_SIZE.y * (m_Index - m_Offset);
 
-		platform->DrawText(pos, unit.text, theme.textRegular);
+			platform->DrawText(pos, unit.text, theme.textRegular);
+		}
 
 		Component::Draw(platform, theme);
 	}
@@ -90,15 +93,12 @@ namespace def::gui
 
 	bool List::AddString(const std::string& data)
 	{
-		bool isOverflow = m_Nodes.size() + 1 > m_SizeInNodes.y;
-
-		if (isOverflow)
-			return false;
-
 		m_Nodes.push_back(new ListNode(this, m_SizeInNodes.x, m_Nodes.size(), data));
 
 		if (m_Slider && m_Resizable)
 		{
+			bool isOverflow = m_Nodes.size() + 1 > m_SizeInNodes.y;
+
 			if (isOverflow)
 				m_Slider->SetMaxValue(m_Nodes.size() - 1);
 

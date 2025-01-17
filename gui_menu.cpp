@@ -25,6 +25,10 @@ namespace def::gui
 		Menu* node = new Menu(this, {}, size);
 		node->EnableAll(false);
 		node->Show(false);
+		
+		Vector2i offset = { m_Size.x + 2, 0 };
+		
+		node->SetPosition(m_LocalPosition + offset);
 
 		m_MenuNodes.push_back(node);
 		m_MenuNodesIndecies[name] = m_Nodes.size() - 1;
@@ -45,7 +49,9 @@ namespace def::gui
 		if (!m_Update)
 			return false;
 
-		return List::Update(platform);
+		bool light = List::Update(platform);
+
+		return light;
 	}
 
 	void Menu::Draw(Platform* platform, const Theme& theme) const

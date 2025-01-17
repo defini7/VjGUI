@@ -12,13 +12,13 @@ namespace def::gui
 	public:
 		using KeyType = HardwareButton::KeyType;
 
-		TextEntry(Panel* parent = nullptr);
-		TextEntry(Panel* parent, const Vector2i& pos, const Vector2i& size, const std::string& text = "", const std::string& placeholder = "");
+		TextEntry(Component* parent = nullptr);
+		TextEntry(Component* parent, const Vector2i& pos, const Vector2i& size, const std::string& text = "", const std::string& placeholder = "");
 		virtual ~TextEntry();
 
 	public:
 		void SetPlaceholder(const std::string& placeholder);
-		std::string GetPlaceholder() const;
+		const std::string& GetPlaceholder() const;
 
 		bool Update(Platform* platform) override;
 		void Draw(Platform* platform, const Theme& theme) const override;

@@ -45,7 +45,7 @@ namespace def::gui
 
 	bool Component::Update(Platform* platform)
 	{
-		if (!m_IsVisible)
+		if (!m_Update)
 			return false;
 
 		Vector2i mousePos = platform->GetMousePosition();
@@ -55,13 +55,17 @@ namespace def::gui
 
 		if (IsPointInRect(mousePos, m_GlobalPosition, m_Size))
 		{
-			HandleEvent(this, Event(Event::Type::Mouse_Hover));
+			HandleEvent(this, Event::Mouse_Hover);
 
 			if (mouse_leftButtonState.pressed)
 			{
 				m_IsFocused = true;
-				HandleEvent(this, Event(Event::Type::Component_Focused));
+				HandleEvent(this, Event::Mouse_Press);
+				HandleEvent(this, Event::Component_Focus);
 			}
+
+			if (mouse_leftButtonState.held)     HandleEvent(this, Event::Mouse_Hold);
+			if (mouse_leftButtonState.released) HandleEvent(this, Event::Mouse_Release);
 
 			light = true;
 		}
@@ -70,7 +74,8 @@ namespace def::gui
 			if (mouse_leftButtonState.pressed && m_IsFocused)
 			{
 				m_IsFocused = false;
-				HandleEvent(this, Event(Event::Type::Component_Unfocused));
+				HandleEvent(this, Event::Mouse_Press);
+				HandleEvent(this, Event::Component_Unfocus);
 			}
 		}
 
@@ -87,14 +92,19 @@ namespace def::gui
 
 	void Component::Draw(Platform* platform, const Theme& theme) const
 	{
-		if (m_IsVisible)
-		{
-			for (auto& component : m_Children)
-				component->Draw(platform, theme);
-		}
+		if (!m_IsVisible)
+			return;
+
+		for (auto& component : m_Children)
+			component->Draw(platform, theme);
 	}
 
-	Vector2i Component::GetPosition() const
+	const Vector2i& Component::GetGlobalPosition()
+	{
+		return m_GlobalPosition;
+	}
+
+	const Vector2i& Component::GetPosition() const
 	{
 		return m_LocalPosition;
 	}
@@ -105,7 +115,7 @@ namespace def::gui
 		m_LocalPosition = pos;
 	}
 
-	Vector2i Component::GetSize() const
+	const Vector2i& Component::GetSize() const
 	{
 		return m_Size;
 	}
@@ -143,9 +153,21 @@ namespace def::gui
 		m_EnableLight = enable;
 	}
 
+	void Component::EnableUpdate(bool enable)
+	{
+		m_Update = enable;
+	}
+
 	void Component::Show(bool enable)
 	{
 		m_IsVisible = enable;
+	}
+
+	void Component::EnableAll(bool enable)
+	{
+		Show(enable);
+		EnableUpdate(enable);
+		EnableLight(enable);
 	}
 
 	bool Component::IsVisible() const

@@ -4,11 +4,11 @@
 
 namespace def::gui
 {
-	Label::Label(Panel* parent) : Component(parent)
+	Label::Label(Component* parent) : Component(parent)
 	{
 	}
 
-	Label::Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
+	Label::Label(Component* parent, const std::string& text, const Vector2i& pos, const Vector2i& size)
 		: Component(parent)
 	{
 		m_Text = text;
@@ -21,7 +21,7 @@ namespace def::gui
 	{
 	}
 
-	std::string Label::GetText() const
+	const std::string& Label::GetText() const
 	{
 		return m_Text;
 	}
@@ -34,12 +34,18 @@ namespace def::gui
 
 	bool Label::Update(Platform* platform)
 	{
+		if (!m_Update)
+			return false;
+
 		UpdateText();
 		return Component::Update(platform);
 	}
 
 	void Label::Draw(Platform* platform, const Theme& theme) const
 	{
+		if (!m_IsVisible)
+			return;
+
 		platform->FillRect(m_GlobalPosition, m_Size, theme.componentBackground);
 		platform->DrawRect(m_GlobalPosition, m_Size, theme.border);
 
@@ -87,25 +93,20 @@ namespace def::gui
 
 		for (size_t i = 0; i < lines.size(); i++)
 		{
-			size_t offset = i + m_ViewStart;
-
 			auto& unit = m_TextSplitted[i];
 
-			if (offset < lines.size())
+			unit.text = lines[i];
+
+			int length = unit.text.length();
+
+			switch (m_TextAlign)
 			{
-				unit.text = lines[offset];
-
-				int length = unit.text.length();
-
-				switch (m_TextAlign)
-				{
-				case Align::LEFT:   unit.offset = { 0, 0 };                             break;
-				case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
-				case Align::RIGHT:  unit.offset = { m_Size.x - length * 8 - 2, 0 };     break;
-				}
-
-				unit.offset += 2;
+			case Align::LEFT:   unit.offset = { 0, 0 };                             break;
+			case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
+			case Align::RIGHT:  unit.offset = { m_Size.x - length * 8 - 2, 0 };     break;
 			}
+
+			unit.offset += 2;
 		}
 	}
 

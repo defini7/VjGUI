@@ -7,8 +7,8 @@ namespace def::gui
 	class Button : public Label
 	{
 	public:
-		Button(Panel* parent = nullptr);
-		Button(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size);
+		Button(Component* parent = nullptr);
+		Button(Component* parent, const std::string& text, const Vector2i& pos, const Vector2i& size);
 		virtual ~Button();
 
 	public:

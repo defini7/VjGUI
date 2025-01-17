@@ -3,3 +3,4 @@
 #include "gui_textentry.hpp"
 #include "gui_list.hpp"
 #include "gui_slider.hpp"
+#include "gui_menu.hpp"

@@ -2,12 +2,12 @@
 
 namespace def::gui
 {
-	TextEntry::TextEntry(Panel* parent)
+	TextEntry::TextEntry(Component* parent)
 		: Label(parent), m_CursorPos(0), m_Ticks(0.0f)
 	{
 	}
 
-	TextEntry::TextEntry(Panel* parent, const Vector2i& pos, const Vector2i& size, const std::string& text, const std::string& placeholder)
+	TextEntry::TextEntry(Component* parent, const Vector2i& pos, const Vector2i& size, const std::string& text, const std::string& placeholder)
 		: Label(parent, text, pos, size), m_Placeholder(placeholder), m_CursorPos(0), m_Ticks(0.0f)
 	{
 	}
@@ -21,13 +21,16 @@ namespace def::gui
 		m_Placeholder = placeholder;
 	}
 
-	std::string TextEntry::GetPlaceholder() const
+	const std::string& TextEntry::GetPlaceholder() const
 	{
 		return m_Placeholder;
 	}
 
 	bool TextEntry::Update(Platform* platform)
 	{
+		if (!m_Update)
+			return false;
+
 		if (m_IsFocused)
 		{
 			using KeyType = HardwareButton::KeyType;
@@ -72,7 +75,7 @@ namespace def::gui
 			}
 
 			if (platform->GetKey(KeyType::ENTER).pressed)
-				HandleEvent(this, { Event::Type::Component_Confirm });
+				HandleEvent(this, { Event::Component_Confirm });
 
 			SetText(m_Text);
 			UpdateText();
@@ -88,6 +91,9 @@ namespace def::gui
 
 	void TextEntry::Draw(Platform* platform, const Theme& theme) const
 	{
+		if (!m_IsVisible)
+			return;
+
 		if (m_EnableLight)
 		{
 			platform->FillRect(m_GlobalPosition, m_Size, theme.ApplyLight(theme.componentBackground));

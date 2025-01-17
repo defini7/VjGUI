@@ -13,8 +13,8 @@ namespace def::gui
 	class Label : public Component
 	{
 	public:
-		Label(Panel* parent = nullptr);
-		Label(Panel* parent, const std::string& text, const Vector2i& pos, const Vector2i& size);
+		Label(Component* parent = nullptr);
+		Label(Component* parent, const std::string& text, const Vector2i& pos, const Vector2i& size);
 		virtual ~Label();
 
 		friend class Button;
@@ -22,7 +22,7 @@ namespace def::gui
 		friend class List;
 
 	public:
-		std::string GetText() const;
+		const std::string& GetText() const;
 		void SetText(const std::string& text);
 
 		bool Update(Platform* platform) override;
@@ -44,10 +44,10 @@ namespace def::gui
 		// Perform SplitTextIntoLines and UpdateTextPosition if m_ForceUpdateOffset flag was set to true
 		void UpdateText();
 
-	private:
+	protected:
 		std::string m_Text;
 		Vector2i m_CharsSize;
-		Align m_TextAlign;
+		Align m_TextAlign = Align::LEFT;
 
 		struct TextUnit
 		{
@@ -59,9 +59,6 @@ namespace def::gui
 		std::vector<TextUnit> m_TextSplitted;
 
 		bool m_ForceUpdateOffset = true;
-
-		// Index that we start rendering text from
-		size_t m_ViewStart = 0;
 
 	};
 }

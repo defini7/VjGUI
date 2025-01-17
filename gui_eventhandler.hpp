@@ -5,27 +5,17 @@
 
 namespace def::gui
 {
-	struct Event
+	enum class Event
 	{
-		enum class Type
-		{
-			None,
-			Mouse_Pressed,
-			Mouse_Held,
-			Mouse_Released,
-			Mouse_Hover,
-			Component_Focused,
-			Component_Unfocused,
-			Component_Confirm
-		} type;
-
-		Event(const Type type = Type::None) : type(type)
-		{
-
-		}
-
-		// TODO: Add more events and
-		// some event specific stuff
+		None,
+		Mouse_Press,
+		Mouse_Hold,
+		Mouse_Release,
+		Mouse_Hover,
+		Component_Focus,
+		Component_Unfocus,
+		Component_Confirm,
+		Component_Select
 	};
 
 	template <class T>
@@ -35,13 +25,13 @@ namespace def::gui
 	class EventHandler
 	{
 	public:
-		void SetEventHandler(EventHandlerFunc<T> func, const std::any& userData = nullptr)
+		inline virtual void SetEventHandler(EventHandlerFunc<T> func, const std::any& userData = nullptr)
 		{
 			m_EventHandlerFunc = func;
 			m_UserData = userData;
 		}
 
-		void HandleEvent(T* component, const Event& event)
+		inline void HandleEvent(T* component, const Event& event)
 		{
 			if (m_EventHandlerFunc)
 				m_EventHandlerFunc(component, event, m_UserData);

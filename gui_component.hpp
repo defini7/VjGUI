@@ -24,10 +24,13 @@ namespace def::gui
 		// Draws children components if visible flag is set to true
 		virtual void Draw(Platform* platform, const Theme& theme) const;
 
-		Vector2i GetPosition() const;
+		const Vector2i& GetGlobalPosition();
+
+		// Returns local position
+		const Vector2i& GetPosition() const;
 		void SetPosition(const Vector2i& pos);
 
-		Vector2i GetSize() const;
+		const Vector2i& GetSize() const;
 		void SetSize(const Vector2i& size);
 
 		// Updates global position of the component by applying an offset
@@ -41,7 +44,9 @@ namespace def::gui
 		void SetAlign(Align align);
 
 		void EnableLight(bool enable);
+		void EnableUpdate(bool enable);
 		void Show(bool enable);
+		void EnableAll(bool enable);
 
 		bool IsVisible() const;
 
@@ -74,6 +79,7 @@ namespace def::gui
 		bool m_EnableLight = false;
 		bool m_IsFocused = false;
 		bool m_IsVisible = true;
+		bool m_Update = true;
 
 	};
 }

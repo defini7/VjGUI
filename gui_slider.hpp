@@ -31,12 +31,12 @@ namespace def::gui
 
 			if (IsPointInRect(mousePos, m_SliderPosition, m_Size))
 			{
-				HandleEvent(this, { Event::Type::Mouse_Hover });
+				HandleEvent(this, { Event::Mouse_Hover });
 
 				if (mouse_leftButtonState.pressed)
 				{
 					m_IsFocused = true;
-					HandleEvent(this, { Event::Type::Component_Focused });
+					HandleEvent(this, { Event::Component_Focus });
 				}
 
 				light = true;
@@ -46,7 +46,7 @@ namespace def::gui
 				if (mouse_leftButtonState.pressed && m_IsFocused)
 				{
 					m_IsFocused = false;
-					HandleEvent(this, { Event::Type::Component_Unfocused });
+					HandleEvent(this, { Event::Component_Unfocus });
 				}
 			}
 
@@ -69,6 +69,9 @@ namespace def::gui
 
 		void Draw(Platform* platform, const Theme& theme) const override
 		{
+			if (!m_IsVisible)
+				return;
+
 			platform->DrawLine(m_GlobalPosition, m_GlobalEndPosition, theme.slider);
 
 			platform->FillRect(m_SliderPosition, m_Size, theme.componentBackground);
@@ -98,6 +101,7 @@ namespace def::gui
 
 			m_GlobalPosition = LocalToGlobalPosition(m_Parent, m_LocalPosition);
 			m_GlobalEndPosition = LocalToGlobalPosition(m_Parent, m_LocalEndPosition);
+
 			UpdateSliderPosition();
 		}
 

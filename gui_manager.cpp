@@ -30,7 +30,7 @@ namespace def::gui
 
 	Panel* Manager::AddPanel(const std::string& title, const Vector2i& pos, const Vector2i& size)
 	{
-		m_Panels.push_back(Panel(title, pos, size));
+		m_Panels.push_back(Panel(nullptr, title, pos, size));
 		return &m_Panels.back();
 	}
 

@@ -161,6 +161,11 @@ namespace def::gui
 		m_SizeInNodes = size;
 	}
 
+	std::vector<ListNode*>::iterator List::GetSelected()
+	{
+		return m_SelectedItem;
+	}
+
 	void List::ConstructSlider()
 	{
 		int width = (float)m_Size.x * 0.05f;

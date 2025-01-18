@@ -3,3 +3,4 @@
 #include "Textentry.hpp"
 #include "List.hpp"
 #include "Slider.hpp"
+#include "Manager.hpp"

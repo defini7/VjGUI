@@ -46,6 +46,8 @@ namespace def::gui
 		void EnableResize(bool enable = true);
 		void SetSize(const Vector2i& size);
 
+		std::vector<ListNode*>::iterator GetSelected();
+
 	private:
 		void Initialise(bool constructSlider, const Vector2i& size = {});
 		void ConstructSlider();

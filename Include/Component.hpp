@@ -50,7 +50,7 @@ namespace def::gui
 
 		bool IsVisible() const;
 
-		// !!! Add children components ONLY by using that method !!!
+		// !!! Add children components using ONLY that method !!!
 		template <class T>
 		T* AddComponent(T* component)
 		{

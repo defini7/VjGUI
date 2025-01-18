@@ -1,6 +1,4 @@
-﻿#include "../Include/Manager.hpp"
-#include "../Include/VjGUI.hpp"
-
+﻿#include "../Include/VjGUI.hpp"
 #include "../Include/Platform_defGameEngine.hpp"
 
 using namespace def::gui;

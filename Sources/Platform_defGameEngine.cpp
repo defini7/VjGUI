@@ -1,7 +1,7 @@
 #define DGE_APPLICATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-#include "gui_platform_defGameEngine.hpp"
+#include "../Include/Platform_defGameEngine.hpp"
 
 namespace def::gui
 {

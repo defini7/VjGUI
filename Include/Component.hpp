@@ -1,9 +1,9 @@
 #pragma once
 
-#include "gui_utils.hpp"
-#include "gui_platform.hpp"
-#include "gui_theme.hpp"
-#include "gui_eventhandler.hpp"
+#include "Utils.hpp"
+#include "Platform.hpp"
+#include "Theme.hpp"
+#include "Eventhandler.hpp"
 
 namespace def::gui
 {

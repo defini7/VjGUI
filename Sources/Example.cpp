@@ -1,7 +1,7 @@
-﻿#include "gui_manager.hpp"
-#include "gui_elements.hpp"
+﻿#include "../Include/Manager.hpp"
+#include "../Include/Elements.hpp"
 
-#include "gui_platform_defGameEngine.hpp"
+#include "../Include/Platform_defGameEngine.hpp"
 
 using namespace def::gui;
 
@@ -23,7 +23,6 @@ public:
 	TextEntry* textentry;
 	List* list;
 	Slider<float>* slider;
-	Menu* menu;
 
 	Theme theme;
 
@@ -74,31 +73,6 @@ protected:
 		list = new List(panel1, { 20, 80 }, { 20, 10 });
 
 		slider = new Slider<float>(panel1, { 250, 60 }, { 300, 60 }, { 5, 5 }, -50.0f, 50.0f, 0.0f);
-		
-		menu = new Menu(panel1, { 200, 80 }, { 14, 5 });
-
-		Menu* list1 = menu->AddNode("Hello1_Node", { 5, 2 });
-		list1->AddNode("test1", { 5, 1 });
-		list1->AddNode("test2", { 5, 1 });
-
-		for (auto& node : list1->GetChildren()) node->SetEventHandler(Event_MenuNode, this);
-		list1->SetEventHandler(Event_MenuNode, this);
-
-		menu->AddNode("Hello2", { 6, 1 });
-		menu->AddNode("Hello3", { 6, 1 });
-
-		Menu* list2 = menu->AddNode("Hello4_Node", { 5, 4 });
-		list2->AddNode("test3", { 5, 1 });
-		list2->AddNode("test4", { 5, 1 });
-		list2->AddNode("test5", { 5, 1 });
-		list2->AddNode("test6", { 5, 1 });
-
-		for (auto& node : list2->GetChildren()) node->SetEventHandler(Event_MenuNode, this);
-		list2->SetEventHandler(Event_MenuNode, this);
-
-		menu->AddNode("Hello5", { 6, 1 });
-
-		for (auto& node : menu->GetChildren()) node->SetEventHandler(Event_MenuNode, this);
 
 		return true;
 	}

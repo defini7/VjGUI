@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 
-#include "gui_component.hpp"
-#include "gui_utils.hpp"
-#include "gui_panel.hpp"
-#include "gui_eventhandler.hpp"
+#include "Component.hpp"
+#include "Utils.hpp"
+#include "Panel.hpp"
+#include "EventHandler.hpp"
 
 namespace def::gui
 {

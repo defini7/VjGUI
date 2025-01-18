@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gui_component.hpp"
-#include "gui_panel.hpp"
+#include "Component.hpp"
+#include "Panel.hpp"
 
 namespace def::gui
 {

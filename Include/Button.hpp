@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gui_label.hpp"
+#include "Label.hpp"
 
 namespace def::gui
 {

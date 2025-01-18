@@ -4,10 +4,10 @@
 #include <string>
 #include <memory>
 
-#include "gui_platform.hpp"
-#include "gui_theme.hpp"
-#include "gui_eventhandler.hpp"
-#include "gui_component.hpp"
+#include "Platform.hpp"
+#include "Theme.hpp"
+#include "Eventhandler.hpp"
+#include "Component.hpp"
 
 namespace def::gui
 {

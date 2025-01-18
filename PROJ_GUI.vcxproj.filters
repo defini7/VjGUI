@@ -15,91 +15,88 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Sources\Button.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_manager.cpp">
+    <ClCompile Include="Sources\Component.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_component.cpp">
+    <ClCompile Include="Sources\Label.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_panel.cpp">
+    <ClCompile Include="Sources\List.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_platform_defGameEngine.cpp">
+    <ClCompile Include="Sources\Manager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_label.cpp">
+    <ClCompile Include="Sources\Panel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_theme.cpp">
+    <ClCompile Include="Sources\Platform_defGameEngine.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_button.cpp">
+    <ClCompile Include="Sources\TextEntry.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_utils.cpp">
+    <ClCompile Include="Sources\Theme.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_textentry.cpp">
+    <ClCompile Include="Sources\Utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="gui_list.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="gui_menu.cpp">
+    <ClCompile Include="Sources\Example.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gui_manager.hpp">
+    <ClInclude Include="Include\defGameEngine.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_component.hpp">
+    <ClInclude Include="Include\Button.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_panel.hpp">
+    <ClInclude Include="Include\Component.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="defGameEngine.hpp">
+    <ClInclude Include="Include\Elements.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_utils.hpp">
+    <ClInclude Include="Include\EventHandler.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_platform.hpp">
+    <ClInclude Include="Include\Label.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_platform_defGameEngine.hpp">
+    <ClInclude Include="Include\List.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_label.hpp">
+    <ClInclude Include="Include\Manager.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_theme.hpp">
+    <ClInclude Include="Include\Panel.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_elements.hpp">
+    <ClInclude Include="Include\Platform.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_button.hpp">
+    <ClInclude Include="Include\Platform_defGameEngine.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_eventhandler.hpp">
+    <ClInclude Include="Include\Slider.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_textentry.hpp">
+    <ClInclude Include="Include\TextEntry.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_list.hpp">
+    <ClInclude Include="Include\Theme.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_slider.hpp">
+    <ClInclude Include="Include\Utils.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="gui_menu.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

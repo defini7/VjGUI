@@ -18,6 +18,39 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\Button.cpp" />
+    <ClCompile Include="Sources\Component.cpp" />
+    <ClCompile Include="Sources\Label.cpp" />
+    <ClCompile Include="Sources\List.cpp" />
+    <ClCompile Include="Sources\Manager.cpp" />
+    <ClCompile Include="Sources\Panel.cpp" />
+    <ClCompile Include="Sources\Platform_defGameEngine.cpp" />
+    <ClCompile Include="Sources\TextEntry.cpp" />
+    <ClCompile Include="Sources\Theme.cpp" />
+    <ClCompile Include="Sources\Utils.cpp" />
+    <ClCompile Include="Sources\Example.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\defGameEngine.hpp" />
+    <ClInclude Include="Include\Button.hpp" />
+    <ClInclude Include="Include\Component.hpp" />
+    <ClInclude Include="Include\Elements.hpp" />
+    <ClInclude Include="Include\EventHandler.hpp" />
+    <ClInclude Include="Include\Label.hpp" />
+    <ClInclude Include="Include\List.hpp" />
+    <ClInclude Include="Include\Manager.hpp" />
+    <ClInclude Include="Include\Panel.hpp" />
+    <ClInclude Include="Include\Platform.hpp" />
+    <ClInclude Include="Include\Platform_defGameEngine.hpp" />
+    <ClInclude Include="Include\Slider.hpp" />
+    <ClInclude Include="Include\TextEntry.hpp" />
+    <ClInclude Include="Include\Theme.hpp" />
+    <ClInclude Include="Include\Utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,38 +171,6 @@
       <AdditionalLibraryDirectories>C:\SDK\glfw\x86\lib-vc2022;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="gui_button.cpp" />
-    <ClCompile Include="gui_component.cpp" />
-    <ClCompile Include="gui_list.cpp" />
-    <ClCompile Include="gui_manager.cpp" />
-    <ClCompile Include="gui_menu.cpp" />
-    <ClCompile Include="gui_panel.cpp" />
-    <ClCompile Include="gui_platform_defGameEngine.cpp" />
-    <ClCompile Include="gui_label.cpp" />
-    <ClCompile Include="gui_textentry.cpp" />
-    <ClCompile Include="gui_theme.cpp" />
-    <ClCompile Include="gui_utils.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="defGameEngine.hpp" />
-    <ClInclude Include="gui_button.hpp" />
-    <ClInclude Include="gui_component.hpp" />
-    <ClInclude Include="gui_elements.hpp" />
-    <ClInclude Include="gui_eventhandler.hpp" />
-    <ClInclude Include="gui_list.hpp" />
-    <ClInclude Include="gui_manager.hpp" />
-    <ClInclude Include="gui_menu.hpp" />
-    <ClInclude Include="gui_panel.hpp" />
-    <ClInclude Include="gui_platform.hpp" />
-    <ClInclude Include="gui_platform_defGameEngine.hpp" />
-    <ClInclude Include="gui_label.hpp" />
-    <ClInclude Include="gui_slider.hpp" />
-    <ClInclude Include="gui_textentry.hpp" />
-    <ClInclude Include="gui_theme.hpp" />
-    <ClInclude Include="gui_utils.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

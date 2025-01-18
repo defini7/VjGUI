@@ -1,5 +1,5 @@
-#include "gui_component.hpp"
-#include "gui_panel.hpp"
+#include "../Include/Component.hpp"
+#include "../Include/Panel.hpp"
 
 namespace def::gui
 {

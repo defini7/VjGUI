@@ -1,6 +1,0 @@
-#include "gui_label.hpp"
-#include "gui_button.hpp"
-#include "gui_textentry.hpp"
-#include "gui_list.hpp"
-#include "gui_slider.hpp"
-#include "gui_menu.hpp"

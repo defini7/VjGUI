@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "gui_platform.hpp"
-#include "gui_utils.hpp"
+#include "Platform.hpp"
+#include "Utils.hpp"
 #include "defGameEngine.hpp"
 
 namespace def::gui

@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 
-#include "gui_label.hpp"
-#include "gui_utils.hpp"
+#include "Label.hpp"
+#include "Utils.hpp"
 
 namespace def::gui
 {

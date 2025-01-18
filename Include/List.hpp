@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gui_label.hpp"
-#include "gui_slider.hpp"
+#include "Label.hpp"
+#include "Slider.hpp"
 
 namespace def::gui
 {

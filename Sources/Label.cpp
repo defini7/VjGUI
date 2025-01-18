@@ -1,4 +1,4 @@
-#include "gui_label.hpp"
+#include "../Include/Label.hpp"
 
 #include <iostream>
 

@@ -1,4 +1,4 @@
-#include "gui_textentry.hpp"
+#include "../Include/TextEntry.hpp"
 
 namespace def::gui
 {

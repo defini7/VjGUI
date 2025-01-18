@@ -1,4 +1,4 @@
-#include "gui_manager.hpp"
+#include "../Include/Manager.hpp"
 
 namespace def::gui
 {

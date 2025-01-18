@@ -2,10 +2,10 @@
 
 #include <list>
 
-#include "gui_panel.hpp"
-#include "gui_platform.hpp"
-#include "gui_theme.hpp"
-#include "gui_component.hpp"
+#include "Panel.hpp"
+#include "Platform.hpp"
+#include "Theme.hpp"
+#include "Component.hpp"
 
 namespace def::gui
 {

@@ -59,7 +59,7 @@
     <ClInclude Include="Include\Component.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Elements.hpp">
+    <ClInclude Include="Include\VjGUI.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Include\EventHandler.hpp">

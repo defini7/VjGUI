@@ -35,7 +35,7 @@
     <ClInclude Include="Include\defGameEngine.hpp" />
     <ClInclude Include="Include\Button.hpp" />
     <ClInclude Include="Include\Component.hpp" />
-    <ClInclude Include="Include\Elements.hpp" />
+    <ClInclude Include="Include\VjGUI.hpp" />
     <ClInclude Include="Include\EventHandler.hpp" />
     <ClInclude Include="Include\Label.hpp" />
     <ClInclude Include="Include\List.hpp" />

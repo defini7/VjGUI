@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_MANAGER_HPP
+#define DEF_GUI_MANAGER_HPP
 
 #include <list>
 
@@ -30,3 +31,5 @@ namespace def::gui
 		Platform* m_Platform;
 	};
 }
+
+#endif

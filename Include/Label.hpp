@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_LABEL_HPP
+#define DEF_GUI_LABEL_HPP
 
 #include <string>
 #include <vector>
@@ -62,3 +63,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

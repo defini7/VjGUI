@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_TEXTENTRY_HPP
+#define DEF_GUI_TEXTENTRY_HPP
 
 #include <unordered_map>
 
@@ -42,3 +43,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

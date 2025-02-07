@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_SLIDER_HPP
+#define DEF_GUI_SLIDER_HPP
 
 #include "Component.hpp"
 #include "Panel.hpp"
@@ -55,7 +56,7 @@ namespace def::gui
 				if (mouse_leftButtonState.held)
 				{
 					Vector2d diff = m_LocalEndPosition - m_LocalPosition;
-					double t = diff.dot(mousePos - m_GlobalPosition) / double(diff.mag2());
+					double t = diff.DotProduct(mousePos - m_GlobalPosition) / double(diff.Length2());
 
 					m_Value = t * double(m_MaxValue - m_MinValue) + m_MinValue;
 
@@ -120,3 +121,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

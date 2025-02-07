@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_COMPONENT_HPP
+#define DEF_GUI_COMPONENT_HPP
 
 #include "Utils.hpp"
 #include "Platform.hpp"
@@ -83,3 +84,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

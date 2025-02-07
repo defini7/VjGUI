@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_EVENTHANDLER_HPP
+#define DEF_GUI_EVENTHANDLER_HPP
 
 #include <list>
 #include <any>
@@ -43,3 +44,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

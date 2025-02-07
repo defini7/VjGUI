@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_BUTTON_HPP
+#define DEF_GUI_BUTTON_HPP
 
 #include "Label.hpp"
 
@@ -22,3 +23,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

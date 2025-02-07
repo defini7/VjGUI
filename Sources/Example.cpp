@@ -27,7 +27,6 @@ public:
 protected:
 	static void Event_Button(Component* component, const Event& event, const std::any& userdata)
 	{
-		Button* button = static_cast<Button*>(component);
 		GUI_Testing* app = std::any_cast<GUI_Testing*>(userdata);
 
 		if (event == Event::Mouse_Release)
@@ -92,7 +91,7 @@ int main()
 {
 	GUI_Testing app;
 
-	if (app.Construct(640, 360, 2, 2))
+	if (app.Construct(640, 360, 2, 2, false, true))
 		app.Run();
 
 	return 0;

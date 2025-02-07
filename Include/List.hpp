@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_LIST_HPP
+#define DEF_GUI_LIST_HPP
 
 #include "Label.hpp"
 #include "Slider.hpp"
@@ -65,3 +66,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

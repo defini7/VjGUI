@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_PANEL_HPP
+#define DEF_GUI_PANEL_HPP
 
 #include <list>
 #include <string>
@@ -46,3 +47,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_PLATFORM_HPP
+#define DEF_GUI_PLATFORM_HPP
 
 #include <string>
 
@@ -67,3 +68,5 @@ namespace def::gui
 
 	};
 }
+
+#endif

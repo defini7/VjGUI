@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEF_GUI_THEME_HPP
+#define DEF_GUI_THEME_HPP
 
 #include "Utils.hpp"
 
@@ -22,3 +23,5 @@ namespace def::gui
 		bool forceUsingPlaceholder = false;
 	};
 }
+
+#endif

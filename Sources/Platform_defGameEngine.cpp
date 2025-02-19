@@ -86,24 +86,24 @@ namespace def::gui
 
 	Vector2i Platform_defGameEngine::GetMousePosition() const
 	{
-		return { m_Engine->GetMouseX(), m_Engine->GetMouseY() };
+		return { m_Engine->GetInput()->GetMouseX(), m_Engine->GetInput()->GetMouseY() };
 	}
 
 	HardwareButton Platform_defGameEngine::GetMouseButton(HardwareButton::ButtonType id) const
 	{
-		auto state = m_Engine->GetMouse(m_ButtonLookup.at(id));
+		auto state = m_Engine->GetInput()->GetButtonState(m_ButtonLookup.at(id));
 		return { state.pressed, state.held, state.released };
 	}
 
 	HardwareButton Platform_defGameEngine::GetKey(HardwareButton::KeyType id) const
 	{
-		auto state = m_Engine->GetKey(m_KeyLookup.at(id));
+		auto state = m_Engine->GetInput()->GetKeyState(m_KeyLookup.at(id));
 		return { state.pressed, state.held, state.released };
 	}
 
 	bool Platform_defGameEngine::IsCaps() const
 	{
-		return m_Engine->IsCaps();
+		return m_Engine->GetInput()->IsCaps();
 	}
 
 	float Platform_defGameEngine::GetDeltaTime() const

@@ -50,6 +50,8 @@ namespace def::gui
 	class Platform
 	{
 	public:
+		virtual ~Platform() {}
+
 		virtual void DrawRect(const Vector2i& pos, const Vector2i& size, const Colour& col) = 0;
 		virtual void FillRect(const Vector2i& pos, const Vector2i& size, const Colour& col) = 0;
 		virtual void DrawText(const Vector2i& pos, const std::string& text, const Colour& col) = 0;

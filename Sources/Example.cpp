@@ -8,7 +8,7 @@ class GUI_Testing : public def::GameEngine
 public:
 	GUI_Testing()
 	{
-		SetTitle("Testing GUI");
+		GetWindow()->SetTitle("Testing GUI");
 		UseOnlyTextures(true);
 	}
 
@@ -20,7 +20,10 @@ public:
 	Button* button;
 	TextEntry* textentry;
 	List* list;
-	Slider<float>* slider;
+
+	Slider<int16_t>* sliderR;
+	Slider<int16_t>* sliderG;
+	Slider<int16_t>* sliderB;
 
 	Theme theme;
 
@@ -69,7 +72,9 @@ protected:
 
 		list = new List(panel1, { 20, 80 }, { 20, 10 });
 
-		slider = new Slider<float>(panel1, { 250, 60 }, { 300, 60 }, { 5, 5 }, -50.0f, 50.0f, 0.0f);
+		sliderR = new Slider<int16_t>(panel1, { 250, 60 }, { 300, 60 }, { 5, 5 }, 0, 255, 255);
+		sliderG = new Slider<int16_t>(panel1, { 250, 70 }, { 300, 70 }, { 5, 5 }, 0, 255, 255);
+		sliderB = new Slider<int16_t>(panel1, { 250, 80 }, { 300, 80 }, { 5, 5 }, 0, 255, 255);
 
 		return true;
 	}
@@ -81,7 +86,12 @@ protected:
 		ClearTexture(def::BLACK);
 		manager->Draw(theme);
 
-		DrawTextureString({ 10, 10 }, std::to_string(slider->GetValue()));
+		FillTextureRectangle({ 500, 250 }, { 100, 100 },
+			{
+				(uint8_t)sliderR->GetValue(),
+				(uint8_t)sliderG->GetValue(),
+				(uint8_t)sliderB->GetValue()
+			});
 
 		return true;
 	}

@@ -1,2 +1,6 @@
-Build/Script/__pycache__
 Build/Target/*
+*.vcxproj*
+Obj/
+Target/
+.vs
+*.sln

@@ -49,7 +49,7 @@ namespace def::gui
 			return false;
 
 		Vector2i mousePos = platform->GetMousePos();
-		HardwareButton mouse_leftButtonState = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
+		HardwareButton mouseLeft = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
 		bool light = false;
 
@@ -57,23 +57,25 @@ namespace def::gui
 		{
 			HandleEvent(this, Event::Mouse_Hover);
 
-			if (mouse_leftButtonState.pressed)
+			if (mouseLeft.pressed)
 			{
 				m_IsFocused = true;
+
 				HandleEvent(this, Event::Mouse_Press);
 				HandleEvent(this, Event::Component_Focus);
 			}
 
-			if (mouse_leftButtonState.held)     HandleEvent(this, Event::Mouse_Hold);
-			if (mouse_leftButtonState.released) HandleEvent(this, Event::Mouse_Release);
+			if (mouseLeft.held)     HandleEvent(this, Event::Mouse_Hold);
+			if (mouseLeft.released) HandleEvent(this, Event::Mouse_Release);
 
 			light = true;
 		}
 		else
 		{
-			if (mouse_leftButtonState.pressed && m_IsFocused)
+			if (mouseLeft.pressed && m_IsFocused)
 			{
 				m_IsFocused = false;
+
 				HandleEvent(this, Event::Mouse_Press);
 				HandleEvent(this, Event::Component_Unfocus);
 			}

@@ -16,6 +16,14 @@ namespace def::gui
 
 	bool ListNode::Update(Platform* platform)
 	{
+		if (!m_TextSplitted.empty())
+		{
+			auto& unit = m_TextSplitted[0];
+
+			m_GlobalPos.y += Platform::CHAR_SIZE.y * (m_Index - m_Offset) + unit.offset.y;
+			m_GlobalPos.x += unit.offset.x;
+		}
+
 		return Label::Update(platform);
 	}
 
@@ -28,10 +36,13 @@ namespace def::gui
 		{
 			auto& unit = m_TextSplitted[0];
 
-			Vector2i pos = m_GlobalPos + unit.offset;
-			pos.y += Platform::CHAR_SIZE.y * (m_Index - m_Offset);
+			if (m_EnableLight)
+			{
+				int sizeX = m_Size.x - 6;
+				platform->FillRect(m_GlobalPos, { sizeX, m_Size.y }, theme.ApplyLight(theme.componentBackground));
+			}
 
-			platform->DrawText(pos, unit.text, theme.textRegular);
+			platform->DrawText(m_GlobalPos, unit.text, theme.textRegular);
 		}
 
 		Component::Draw(platform, theme);
@@ -120,16 +131,17 @@ namespace def::gui
 		Vector2i mousePos = platform->GetMousePos();
 		HardwareButton mouseLeft = platform->GetMouseButton(HardwareButton::ButtonType::LEFT);
 
-		for (int i = 0; i < m_Nodes.size(); i++)
+		for (size_t i = 0; i < m_Nodes.size(); i++)
 		{
-			if (mouseLeft.pressed)
+			if (mouseLeft.released)
 			{
 				Vector2i pos = m_Nodes[i]->GetPos();
-				pos.y += i * Platform::CHAR_SIZE.y;
+				pos.y += (int)i * Platform::CHAR_SIZE.y;
 
 				if (IsPointInRect(mousePos, m_GlobalPos + pos, itemSize))
 				{
-					m_SelectedItem = m_Nodes.begin() + i;
+					m_SelectedItem = i;
+
 					HandleEvent(this, Event::Component_Select);
 					break;
 				}
@@ -161,9 +173,9 @@ namespace def::gui
 		m_SizeInNodes = size;
 	}
 
-	std::vector<ListNode*>::iterator List::GetSelected()
+	ListNode* List::GetSelected()
 	{
-		return m_SelectedItem;
+		return m_Nodes[m_SelectedItem];
 	}
 
 	void List::ConstructSlider()

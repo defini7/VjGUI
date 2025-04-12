@@ -11,6 +11,8 @@ namespace def::gui
 	public:
 		ListNode(Component* parent = nullptr);
 		ListNode(Component* parent, int width, int index, const std::string& text = "");
+
+		friend class List;
 		
 	public:
 		bool Update(Platform* platform) override;
@@ -48,7 +50,7 @@ namespace def::gui
 		void EnableResize(bool enable = true);
 		void SetSize(const Vector2i& size);
 
-		std::vector<ListNode*>::iterator GetSelected();
+		ListNode* GetSelected();
 
 	private:
 		void Initialise(bool constructSlider, const Vector2i& size = {});
@@ -57,7 +59,7 @@ namespace def::gui
 
 	protected:
 		std::vector<ListNode*> m_Nodes;
-		std::vector<ListNode*>::iterator m_SelectedItem = m_Nodes.begin();
+		size_t m_SelectedItem = size_t(-1);
 
 		Slider<int>* m_Slider = nullptr;
 

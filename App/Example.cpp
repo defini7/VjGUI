@@ -38,11 +38,11 @@ protected:
 
 	static void Event_MenuNode(Component* component, const Event& event, const std::any& userData)
 	{
-		ListNode* node = static_cast<ListNode*>(component);
+		List* node = static_cast<List*>(component);
 		GUI_Testing* app = std::any_cast<GUI_Testing*>(userData);
 		
-		if (event == Event::Mouse_Release)
-			app->label->SetText(node->GetText());
+		if (event == Event::Component_Select)
+			app->label->SetText(node->GetSelected()->GetText());
 	}
 
 	bool OnUserCreate() override
@@ -71,10 +71,11 @@ protected:
 		button->SetEventHandler(Event_Button, this);
 
 		list = new List(panel1, { 20, 80 }, { 20, 10 });
+		list->SetEventHandler(Event_MenuNode, this);
 
-		sliderR = new Slider<int16_t>(panel1, { 250, 60 }, { 300, 60 }, { 5, 5 }, 0, 255, 255);
-		sliderG = new Slider<int16_t>(panel1, { 250, 70 }, { 300, 70 }, { 5, 5 }, 0, 255, 255);
-		sliderB = new Slider<int16_t>(panel1, { 250, 80 }, { 300, 80 }, { 5, 5 }, 0, 255, 255);
+		sliderR = new Slider<int16_t>(panel1, { 250, 60 }, { 300, 110 }, { 5, 5 }, 0, 255, 255);
+		sliderG = new Slider<int16_t>(panel1, { 250, 70 }, { 300, 120 }, { 5, 5 }, 0, 255, 255);
+		sliderB = new Slider<int16_t>(panel1, { 250, 80 }, { 300, 130 }, { 5, 5 }, 0, 255, 255);
 
 		return true;
 	}

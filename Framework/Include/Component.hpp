@@ -8,6 +8,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Component : public EventHandler<Component>
 	{
 	public:
@@ -80,6 +81,7 @@ namespace def::gui
 		bool m_Update = true;
 
 	};
+//! END DECLARATION
 }
 
 #endif

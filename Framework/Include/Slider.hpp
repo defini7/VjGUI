@@ -6,6 +6,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	template <class T>
 	class Slider : public Component
 	{
@@ -44,6 +45,7 @@ namespace def::gui
 		bool m_Held;
 
 	};
+//! END DECLARATION
 }
 
 #include "Slider.inl"

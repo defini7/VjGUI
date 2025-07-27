@@ -15,29 +15,30 @@ project "Engine"
     -- Setting up precompiled headers
 
     pchheader "Pch.hpp"
-    pchsource "Sources/Pch.cpp"
+    pchsource "%{prj.name}/Sources/Pch.cpp"
 
     -- Including all source and header files of the engine
 
     files
     {
-        "Include/*.hpp",
-        "Sources/*.cpp",
-        "Sources/*.inl"
+        "%{prj.name}/Include/*.hpp",
+        "%{prj.name}/Sources/*.cpp"
     }
 
-    filter { "system:windows or system:linux" }
+    removefiles { "%{prj.name}/Sources/Utils.cpp" }
+
+    filter { "system:windows or system:linux or system:macosx" }
         removefiles
         {
-            "Include/PlatformEmscripten.hpp",
-            "Sources/PlatformEmscripten.cpp"
+            "%{prj.name}/Include/PlatformEmscripten.hpp",
+            "%{prj.name}/Sources/PlatformEmscripten.cpp"
         }
 
     filter "system:emscripten"
         removefiles
         {
-            "Include/PlatformGLFW3.hpp",
-            "Sources/PlatformGLFW3.cpp"
+            "%{prj.name}/Include/PlatformGLFW3.hpp",
+            "%{prj.name}/Sources/PlatformGLFW3.cpp"
         }
 
     filter {}
@@ -46,10 +47,10 @@ project "Engine"
 
     includedirs
     {
-        "Vendor/glfw/include",
-        "Vendor/stb",
-        "Include",
-        "Sources",
+        "%{prj.name}/Vendor/glfw/include",
+        "%{prj.name}/Vendor/stb",
+        "%{prj.name}/Include",
+        "%{prj.name}/Sources",
     }
 
     -- Linking with libraries
@@ -63,6 +64,14 @@ project "Engine"
             "GL", "GLU", "glut", "GLEW", "X11",
             "Xxf86vm", "Xrandr", "pthread", "Xi", "dl",
             "Xinerama", "Xcursor"
+        }
+
+    filter "system:macosx"
+        links
+        {
+            "Metal.framework", "QuartzCore.framework",
+            "Cocoa.framework", "OpenGL.framework",
+            "IOKit.framework", "CoreVideo.framework"
         }
 
     -- Platform specific flags

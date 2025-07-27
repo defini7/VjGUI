@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Colour Theme::ApplyLight(const Colour& colour) const
 	{
 		return Colour
@@ -12,4 +13,5 @@ namespace def::gui
 			std::clamp((float)colour.a * focusedLightFactor, 0.0f, 255.0f)
 		);
 	}
+//! END IMPLEMENTATION
 }

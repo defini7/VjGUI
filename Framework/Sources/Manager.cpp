@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Manager::Manager() : m_Platform(nullptr)
 	{}
 
@@ -35,4 +36,5 @@ namespace def::gui
 	{
 		m_Platform = platform;
 	}
+//! END IMPLEMENTATION
 }

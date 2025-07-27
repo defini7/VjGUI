@@ -10,6 +10,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Manager
 	{
 	public:
@@ -31,6 +32,7 @@ namespace def::gui
 		Platform* m_Platform;
 		
 	};
+//! END DECLARATION
 }
 
 #endif

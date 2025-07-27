@@ -5,6 +5,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Platform_defGameEngine::Platform_defGameEngine(GameEngine* engine) : m_Engine(engine)
 	{
 		using KeyType = HardwareButton::KeyType;
@@ -12,53 +13,53 @@ namespace def::gui
 
 		m_KeyLookup =
 		{
-			{ KeyType::SPACE, Key::SPACE }, { KeyType::APOSTROPHE, Key::APOSTROPHE },
-			{ KeyType::COMMA, Key::COMMA }, { KeyType::MINUS, Key::MINUS },
-			{ KeyType::PERIOD, Key::PERIOD }, { KeyType::SLASH, Key::SLASH },
-			{ KeyType::K0, Key::K0 }, { KeyType::K1, Key::K1 },
-			{ KeyType::K2, Key::K2 }, { KeyType::K3, Key::K3 },
-			{ KeyType::K4, Key::K4 }, { KeyType::K5, Key::K5 },
-			{ KeyType::K6, Key::K6 }, { KeyType::K7, Key::K7 },
-			{ KeyType::K8, Key::K8 }, { KeyType::K9, Key::K9 },
-			{ KeyType::SEMICOLON, Key::SEMICOLON }, { KeyType::EQUAL, Key::EQUAL },
-			{ KeyType::A, Key::A }, { KeyType::B, Key::B },
-			{ KeyType::C, Key::C }, { KeyType::D, Key::D },
-			{ KeyType::E, Key::E }, { KeyType::F, Key::F },
-			{ KeyType::G, Key::G }, { KeyType::H, Key::H },
-			{ KeyType::I, Key::I }, { KeyType::J, Key::J },
-			{ KeyType::K, Key::K }, { KeyType::L, Key::L },
-			{ KeyType::M, Key::M }, { KeyType::N, Key::N },
-			{ KeyType::O, Key::O }, { KeyType::P, Key::P },
-			{ KeyType::Q, Key::Q }, { KeyType::R, Key::R },
-			{ KeyType::S, Key::S }, { KeyType::T, Key::T },
-			{ KeyType::U, Key::U }, { KeyType::V, Key::V },
-			{ KeyType::W, Key::W }, { KeyType::X, Key::X },
-			{ KeyType::Y, Key::Y }, { KeyType::Z, Key::Z },
-			{ KeyType::LEFT_BRACKET, Key::LEFT_BRACKET }, { KeyType::BACKSLASH, Key::BACKSLASH },
-			{ KeyType::RIGHT_BRACKET, Key::RIGHT_BRACKET },
-			{ KeyType::NP_0, Key::NP_0 }, { KeyType::NP_1, Key::NP_1 },
-			{ KeyType::NP_2, Key::NP_2 }, { KeyType::NP_3, Key::NP_3 },
-			{ KeyType::NP_4, Key::NP_4 }, { KeyType::NP_5, Key::NP_5 },
-			{ KeyType::NP_6, Key::NP_6 }, { KeyType::NP_7, Key::NP_7 },
-			{ KeyType::NP_8, Key::NP_8 }, { KeyType::NP_9, Key::NP_9 },
-			{ KeyType::NP_DIVIDE, Key::NP_DIVIDE }, { KeyType::NP_MULTIPLY, Key::NP_MULTIPLY },
-			{ KeyType::NP_SUBTRACT, Key::NP_SUBTRACT }, { KeyType::NP_ADD, Key::NP_ADD },
-			{ KeyType::NP_EQUAL, Key::NP_EQUAL }, { KeyType::LEFT_SHIFT, Key::LEFT_SHIFT },
-			{ KeyType::RIGHT_SHIFT, Key::RIGHT_SHIFT }, { KeyType::BACKSPACE, Key::BACKSPACE },
-			{ KeyType::DEL, Key::DEL }, { KeyType::LEFT, Key::LEFT },
-			{ KeyType::RIGHT, Key::RIGHT }, { KeyType::ENTER, Key::ENTER }
+			{ KeyType::SPACE, def::Key::SPACE }, { KeyType::APOSTROPHE, def::Key::APOSTROPHE },
+			{ KeyType::COMMA, def::Key::COMMA }, { KeyType::MINUS, def::Key::MINUS },
+			{ KeyType::PERIOD, def::Key::PERIOD }, { KeyType::SLASH, def::Key::SLASH },
+			{ KeyType::K0, def::Key::K0 }, { KeyType::K1, def::Key::K1 },
+			{ KeyType::K2, def::Key::K2 }, { KeyType::K3, def::Key::K3 },
+			{ KeyType::K4, def::Key::K4 }, { KeyType::K5, def::Key::K5 },
+			{ KeyType::K6, def::Key::K6 }, { KeyType::K7, def::Key::K7 },
+			{ KeyType::K8, def::Key::K8 }, { KeyType::K9, def::Key::K9 },
+			{ KeyType::SEMICOLON, def::Key::SEMICOLON }, { KeyType::EQUAL, def::Key::EQUAL },
+			{ KeyType::A, def::Key::A }, { KeyType::B, def::Key::B },
+			{ KeyType::C, def::Key::C }, { KeyType::D, def::Key::D },
+			{ KeyType::E, def::Key::E }, { KeyType::F, def::Key::F },
+			{ KeyType::G, def::Key::G }, { KeyType::H, def::Key::H },
+			{ KeyType::I, def::Key::I }, { KeyType::J, def::Key::J },
+			{ KeyType::K, def::Key::K }, { KeyType::L, def::Key::L },
+			{ KeyType::M, def::Key::M }, { KeyType::N, def::Key::N },
+			{ KeyType::O, def::Key::O }, { KeyType::P, def::Key::P },
+			{ KeyType::Q, def::Key::Q }, { KeyType::R, def::Key::R },
+			{ KeyType::S, def::Key::S }, { KeyType::T, def::Key::T },
+			{ KeyType::U, def::Key::U }, { KeyType::V, def::Key::V },
+			{ KeyType::W, def::Key::W }, { KeyType::X, def::Key::X },
+			{ KeyType::Y, def::Key::Y }, { KeyType::Z, def::Key::Z },
+			{ KeyType::LEFT_BRACKET, def::Key::LEFT_BRACKET }, { KeyType::BACKSLASH, def::Key::BACKSLASH },
+			{ KeyType::RIGHT_BRACKET, def::Key::RIGHT_BRACKET },
+			{ KeyType::NP_0, def::Key::NP_0 }, { KeyType::NP_1, def::Key::NP_1 },
+			{ KeyType::NP_2, def::Key::NP_2 }, { KeyType::NP_3, def::Key::NP_3 },
+			{ KeyType::NP_4, def::Key::NP_4 }, { KeyType::NP_5, def::Key::NP_5 },
+			{ KeyType::NP_6, def::Key::NP_6 }, { KeyType::NP_7, def::Key::NP_7 },
+			{ KeyType::NP_8, def::Key::NP_8 }, { KeyType::NP_9, def::Key::NP_9 },
+			{ KeyType::NP_DIVIDE, def::Key::NP_DIVIDE }, { KeyType::NP_MULTIPLY, def::Key::NP_MULTIPLY },
+			{ KeyType::NP_SUBTRACT, def::Key::NP_SUBTRACT }, { KeyType::NP_ADD, def::Key::NP_ADD },
+			{ KeyType::NP_EQUAL, def::Key::NP_EQUAL }, { KeyType::LEFT_SHIFT, def::Key::LEFT_SHIFT },
+			{ KeyType::RIGHT_SHIFT, def::Key::RIGHT_SHIFT }, { KeyType::BACKSPACE, def::Key::BACKSPACE },
+			{ KeyType::DEL, def::Key::DEL }, { KeyType::LEFT, def::Key::LEFT },
+			{ KeyType::RIGHT, def::Key::RIGHT }, { KeyType::ENTER, def::Key::ENTER }
 		};
 
 		m_ButtonLookup =
 		{
-			{ ButtonType::LEFT, Button::LEFT },
-			{ ButtonType::RIGHT, Button::RIGHT },
-			{ ButtonType::WHEEL, Button::WHEEL },
-			{ ButtonType::MOUSE4, Button::MOUSE4 },
-			{ ButtonType::MOUSE5, Button::MOUSE5 },
-			{ ButtonType::MOUSE6, Button::MOUSE6 },
-			{ ButtonType::MOUSE7, Button::MOUSE7 },
-			{ ButtonType::MOUSE8, Button::MOUSE8 }
+			{ ButtonType::LEFT, def::Button::LEFT },
+			{ ButtonType::RIGHT, def::Button::RIGHT },
+			{ ButtonType::WHEEL, def::Button::WHEEL },
+			{ ButtonType::MOUSE4, def::Button::MOUSE4 },
+			{ ButtonType::MOUSE5, def::Button::MOUSE5 },
+			{ ButtonType::MOUSE6, def::Button::MOUSE6 },
+			{ ButtonType::MOUSE7, def::Button::MOUSE7 },
+			{ ButtonType::MOUSE8, def::Button::MOUSE8 }
 		};
 
 		CHAR_SIZE = { 8, 8 };
@@ -120,4 +121,5 @@ namespace def::gui
 	{
 		return Pixel(col.r, col.g, col.b, col.a);
 	}
+//! END IMPLEMENTATION
 }

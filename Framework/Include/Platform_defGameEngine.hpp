@@ -9,6 +9,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Platform_defGameEngine : public Platform
 	{
 	public:
@@ -39,6 +40,7 @@ namespace def::gui
 		std::unordered_map<HardwareButton::ButtonType, Button> m_ButtonLookup;
 
 	};
+//! END DECLARATION
 }
 
 #endif

@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	ListNode::ListNode(Component* parent) : Label(parent)
 	{
 		Initialise();
@@ -102,7 +103,7 @@ namespace def::gui
 			ConstructSlider();
 	}
 
-	bool List::AddString(const std::string& data)
+	void List::AddString(const std::string& data)
 	{
 		m_Nodes.push_back(new ListNode(this, m_SizeInNodes.x, m_Nodes.size(), data));
 
@@ -115,8 +116,6 @@ namespace def::gui
 
 			m_Slider->Show(isOverflow);
 		}
-
-		return true;
 	}
 
 	bool List::Update(Platform* platform)
@@ -202,4 +201,15 @@ namespace def::gui
 			}
 		}
 	}
+
+	void List::Clear()
+	{
+		m_Nodes.clear();
+
+		m_Slider->Show(false);
+		m_Slider->SetMaxValue(1);
+
+		m_Children.erase(std::next(m_Children.begin()), m_Children.end());
+	}
+//! END IMPLEMENTATION
 }

@@ -7,6 +7,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	struct HardwareButton
 	{
 		bool pressed = false;
@@ -69,6 +70,7 @@ namespace def::gui
 		inline static Vector2i CHAR_SIZE;
 
 	};
+//! END DECLARATION
 }
 
 #endif

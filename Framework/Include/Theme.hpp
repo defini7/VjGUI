@@ -5,6 +5,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	struct Theme
 	{
 		Colour ApplyLight(const Colour& colour) const;
@@ -22,6 +23,7 @@ namespace def::gui
 		float focusedLightFactor = 0.0f;
 		bool forceUsingPlaceholder = false;
 	};
+//! END DECLARATION
 }
 
 #endif

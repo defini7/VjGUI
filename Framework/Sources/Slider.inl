@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	template <class T>
 	Slider<T>::Slider(Component* parent, const Vector2i& start, const Vector2i& end, const Vector2i& size, const T& min_value, const T& max_value, const T& value)
 		: Component(parent), m_MinValue(min_value), m_MaxValue(max_value), m_Value(value), m_LocalEndPos(end), m_Held(false)
@@ -110,4 +111,5 @@ namespace def::gui
 
 		UpdateSliderPos();
 	}
+//! END IMPLEMENTATION
 }

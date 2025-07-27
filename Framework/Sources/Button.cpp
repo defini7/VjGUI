@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Button::Button(Component* parent) : Label(parent)
 	{
 	}
@@ -51,4 +52,5 @@ namespace def::gui
 
 		Component::Draw(platform, theme);
 	}
+//! END IMPLEMENTATION
 }

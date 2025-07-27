@@ -11,6 +11,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Label : public Component
 	{
 	public:
@@ -63,6 +64,7 @@ namespace def::gui
 		bool m_ForceUpdateOffset = true;
 
 	};
+//! END DECLARATION
 }
 
 #endif

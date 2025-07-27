@@ -4,6 +4,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Label::Label(Component* parent) : Component(parent)
 	{
 	}
@@ -148,4 +149,5 @@ namespace def::gui
 			m_ForceUpdateOffset = false;
 		}
 	}
+//! END IMPLEMENTATION
 }

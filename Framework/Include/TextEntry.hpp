@@ -8,6 +8,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class TextEntry : public Label
 	{
 	public:
@@ -42,6 +43,7 @@ namespace def::gui
 		static constexpr float CURSOR_HIDE_DELAY = 1.0f;
 
 	};
+//! END DECLARATION
 }
 
 #endif

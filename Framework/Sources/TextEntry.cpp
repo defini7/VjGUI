@@ -2,6 +2,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	TextEntry::TextEntry(Component* parent)
 		: Label(parent), m_CursorPos(0), m_Ticks(0.0f)
 	{
@@ -187,4 +188,5 @@ namespace def::gui
 	};
 
 	std::unordered_map<TextEntry::KeyType, std::pair<char, char>>& TextEntry::s_PickedKeyboard = TextEntry::s_KeyboardUS;
+//! END IMPLEMENTATION
 }

@@ -1,4 +1,4 @@
-﻿#include "VjGUI.hpp"
+#include "VjGUI.hpp"
 #include "Platform_defGameEngine.hpp"
 
 using namespace def::gui;
@@ -12,18 +12,18 @@ public:
 		UseOnlyTextures(true);
 	}
 
-	Platform_defGameEngine* platform;
+	Platform_defGameEngine* platform = nullptr;
 	std::unique_ptr<Manager> manager;
-	Panel* panel1;
+	Panel* panel1 = nullptr;
 
-	Label* label;
-	Button* button;
-	TextEntry* textentry;
-	List* list;
+	Label* label = nullptr;
+	Button* button = nullptr;
+	TextEntry* textentry = nullptr;
+	List* list = nullptr;
 
-	Slider<int16_t>* sliderR;
-	Slider<int16_t>* sliderG;
-	Slider<int16_t>* sliderB;
+	Slider<int16_t>* sliderR = nullptr;
+	Slider<int16_t>* sliderG = nullptr;
+	Slider<int16_t>* sliderB = nullptr;
 
 	Theme theme;
 

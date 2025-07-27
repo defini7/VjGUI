@@ -6,6 +6,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	enum class Event
 	{
 		None,
@@ -37,12 +38,13 @@ namespace def::gui
 			if (m_EventHandlerFunc)
 				m_EventHandlerFunc(component, event, m_UserData);
 		}
-		
+
 	private:
 		EventHandlerFunc<T> m_EventHandlerFunc = nullptr;
 		std::any m_UserData = nullptr;
 
 	};
+//! END DECLARATION
 }
 
 #endif

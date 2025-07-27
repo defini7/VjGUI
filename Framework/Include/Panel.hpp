@@ -12,6 +12,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Panel : public Component
 	{
 	public:
@@ -46,6 +47,7 @@ namespace def::gui
 		static constexpr int TITLE_BAR_WIDTH = 20;
 
 	};
+//! END DECLARATION
 }
 
 #endif

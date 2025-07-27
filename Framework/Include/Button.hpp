@@ -5,6 +5,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class Button : public Label
 	{
 	public:
@@ -23,6 +24,7 @@ namespace def::gui
 		bool m_Released = false;
 
 	};
+//! END DECLARATION
 }
 
 #endif

@@ -3,6 +3,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Component::Component(Component* parent)
 		: m_Parent(parent)
 	{
@@ -186,4 +187,5 @@ namespace def::gui
 	{
 		return m_Parent;
 	}
+//! END IMPLEMENTATION
 }

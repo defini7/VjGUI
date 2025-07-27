@@ -6,6 +6,7 @@
 
 namespace def::gui
 {
+//! START DECLARATION
 	class ListNode : public Label
 	{
 	public:
@@ -42,7 +43,7 @@ namespace def::gui
 		virtual ~List();
 
 	public:
-		bool AddString(const std::string& data);
+		void AddString(const std::string& data);
 
 		bool Update(Platform* platform) override;
 		void Draw(Platform* platform, const Theme& theme) const override;
@@ -51,6 +52,8 @@ namespace def::gui
 		void SetSize(const Vector2i& size);
 
 		ListNode* GetSelected();
+
+		void Clear();
 
 	private:
 		void Initialise(bool constructSlider, const Vector2i& size = {});
@@ -69,6 +72,7 @@ namespace def::gui
 		bool m_ForceUpdateOffset = false;
 
 	};
+//! END DECLARATION
 }
 
 #endif

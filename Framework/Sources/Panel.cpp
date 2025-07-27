@@ -3,6 +3,7 @@
 
 namespace def::gui
 {
+//! START IMPLEMENTATION
 	Panel::Panel(Component* parent) : Component(parent)
 	{
 	}
@@ -100,4 +101,5 @@ namespace def::gui
 	{
 		m_FixedPos = enable;
 	}
+//! END IMPLEMENTATION
 }

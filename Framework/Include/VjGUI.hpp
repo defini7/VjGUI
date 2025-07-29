@@ -1,6 +1,6 @@
 #include "Label.hpp"
 #include "Button.hpp"
-#include "Textentry.hpp"
+#include "TextEntry.hpp"
 #include "List.hpp"
 #include "Slider.hpp"
 #include "Manager.hpp"

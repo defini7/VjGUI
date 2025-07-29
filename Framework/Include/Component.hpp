@@ -4,7 +4,7 @@
 #include "Utils.hpp"
 #include "Platform.hpp"
 #include "Theme.hpp"
-#include "Eventhandler.hpp"
+#include "EventHandler.hpp"
 
 namespace def::gui
 {
@@ -43,8 +43,8 @@ namespace def::gui
 		Component* GetParent() const;
 		void SetParent(Component* parent);
 
-		Align GetAlign() const;
-		void SetAlign(Align align);
+		int GetAlign() const;
+		void SetAlign(int align);
 
 		void EnableLight(bool enable);
 		void EnableUpdate(bool enable);
@@ -73,7 +73,7 @@ namespace def::gui
 		Component* m_Parent = nullptr;
 		std::list<Component*> m_Children;
 
-		Align m_Align = Align::LEFT;
+		int m_Align = ALIGN_LEFT;
 
 		bool m_EnableLight = false;
 		bool m_IsFocused = false;

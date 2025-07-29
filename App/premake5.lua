@@ -7,12 +7,15 @@ project "App"
     staticruntime "On"
     systemversion "latest"
 
+    -- e.g. minimum version is Catalina
+    buildoptions { "-mmacosx-version-min=10.15" }
+
     targetdir ("%{wks.location}/Build/Target/" .. OUTPUT_DIR .. "/%{prj.name}")
     objdir ("%{wks.location}/Build/Obj/" .. OUTPUT_DIR .. "/%{prj.name}")
 
     -- Link projects
 
-    links { "Engine", "Framework" }
+    links { "GLFW3", "Engine", "Framework" }
 
     files
     {
@@ -23,11 +26,10 @@ project "App"
 
     includedirs
     {
-        "../Framework/Include",
-        "../Framework/Sources",
         "../Engine/Vendor/glfw/include",
         "../Engine/Vendor/stb",
-        "../Engine/Include"
+        "../Engine/Include",
+        "../Framework/Include"
     }
 
     -- Linking with libraries
@@ -43,6 +45,14 @@ project "App"
             "GL", "GLU", "glut", "GLEW", "GLFW3", "X11",
             "Xxf86vm", "Xrandr", "pthread", "Xi", "dl",
             "Xinerama", "Xcursor"
+        }
+
+    filter "system:macosx"
+        links
+        {
+            "Metal.framework", "QuartzCore.framework",
+            "Cocoa.framework", "OpenGL.framework",
+            "IOKit.framework", "CoreVideo.framework"
         }
 
     -- Platform specific flags

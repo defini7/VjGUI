@@ -3,10 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "../defGameEngine/Include",
-                "${GLFW_PATH}/include",
-                "${STB_PATH}"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -15,6 +12,7 @@
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "cl.exe",
+            "cppStandard": "c++20",
             "cStandard": "c17",
             "intelliSenseMode": "windows-msvc-x64"
         }

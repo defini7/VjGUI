@@ -141,12 +141,12 @@ namespace def::gui
 		m_Parent = parent;
 	}
 
-	Align Component::GetAlign() const
+	int Component::GetAlign() const
 	{
 		return m_Align;
 	}
 
-	void Component::SetAlign(Align align)
+	void Component::SetAlign(int align)
 	{
 		m_Align = align;
 	}

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "*.props": "cpp"
+        "*.props": "cpp",
+        "any": "cpp"
     }
 }

@@ -64,8 +64,10 @@ protected:
 		panel1 = manager->AddPanel("Some title 1", { 10, 10 }, { 500, 200 });
 
 		label = new Label(panel1, "", { 20, 20 }, { 25, 1 });
-		button = new Button(panel1, "Add", { 200, 50 }, { 3, 1 });
+		button = new Button(panel1, "Add", { 200, 50 }, { 8, 4 });
 		textentry = new TextEntry(panel1, { 20, 50 }, { 20, 1 });
+
+		button->SetTextAlign(ALIGN_CENTRE);
 
 		textentry->SetPlaceholder("Write here...");
 		button->SetEventHandler(Event_Button, this);

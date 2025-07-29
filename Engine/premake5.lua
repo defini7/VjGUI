@@ -15,30 +15,30 @@ project "Engine"
     -- Setting up precompiled headers
 
     pchheader "Pch.hpp"
-    pchsource "%{prj.name}/Sources/Pch.cpp"
+    pchsource "Sources/Pch.cpp"
 
     -- Including all source and header files of the engine
 
     files
     {
-        "%{prj.name}/Include/*.hpp",
-        "%{prj.name}/Sources/*.cpp"
+        "Include/*.hpp",
+        "Sources/*.cpp"
     }
 
-    removefiles { "%{prj.name}/Sources/Utils.cpp" }
+    removefiles { "Sources/Utils.cpp" }
 
     filter { "system:windows or system:linux or system:macosx" }
         removefiles
         {
-            "%{prj.name}/Include/PlatformEmscripten.hpp",
-            "%{prj.name}/Sources/PlatformEmscripten.cpp"
+            "Include/PlatformEmscripten.hpp",
+            "Sources/PlatformEmscripten.cpp"
         }
 
     filter "system:emscripten"
         removefiles
         {
-            "%{prj.name}/Include/PlatformGLFW3.hpp",
-            "%{prj.name}/Sources/PlatformGLFW3.cpp"
+            "Include/PlatformGLFW3.hpp",
+            "Sources/PlatformGLFW3.cpp"
         }
 
     filter {}
@@ -47,10 +47,10 @@ project "Engine"
 
     includedirs
     {
-        "%{prj.name}/Vendor/glfw/include",
-        "%{prj.name}/Vendor/stb",
-        "%{prj.name}/Include",
-        "%{prj.name}/Sources",
+        "Vendor/glfw/include",
+        "Vendor/stb",
+        "Include",
+        "Sources",
     }
 
     -- Linking with libraries

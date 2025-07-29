@@ -34,8 +34,8 @@ namespace def::gui
 		Vector2i GetSize() const;
 		void SetSize(const Vector2i& size);
 
-		Align GetTextAlign() const;
-		virtual void SetTextAlign(Align align);
+		int GetTextAlign() const;
+		virtual void SetTextAlign(int align);
 
 	private:
 		// For each string in line we calculate it's Pos and push it to the m_TextSplitted
@@ -50,7 +50,7 @@ namespace def::gui
 	protected:
 		std::string m_Text;
 		Vector2i m_CharsSize;
-		Align m_TextAlign = Align::LEFT;
+		int m_TextAlign = (int)ALIGN_LEFT;
 
 		struct TextUnit
 		{

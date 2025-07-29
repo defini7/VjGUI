@@ -48,6 +48,6 @@ namespace def::gui
 //! END DECLARATION
 }
 
-#include "Slider.inl"
+#include "../Sources/Slider.inl"
 
 #endif

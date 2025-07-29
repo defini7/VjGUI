@@ -76,12 +76,12 @@ namespace def::gui
 		m_Size = { size.x * Platform::CHAR_SIZE.x + 4, size.y * Platform::CHAR_SIZE.y + 2 };
 	}
 
-	Align Label::GetTextAlign() const
+	int Label::GetTextAlign() const
 	{
 		return m_TextAlign;
 	}
 
-	void Label::SetTextAlign(Align align)
+	void Label::SetTextAlign(int align)
 	{
 		m_TextAlign = align;
 		m_ForceUpdateOffset = true;
@@ -95,17 +95,34 @@ namespace def::gui
 		for (size_t i = 0; i < lines.size(); i++)
 		{
 			auto& unit = m_TextSplitted[i];
-
 			unit.text = lines[i];
 
 			int length = unit.text.length();
 
-			switch (m_TextAlign)
+			if (m_TextAlign & ALIGN_CENTRE)
 			{
-			case Align::LEFT:   unit.offset = { 0, 0 };                             break;
-			case Align::CENTRE: unit.offset = { m_Size.x / 2 - length * 4 - 2, 0 }; break;
-			case Align::RIGHT:  unit.offset = { m_Size.x - length * 8 - 2, 0 };     break;
+				if (m_TextAlign & ALIGN_LEFT || m_TextAlign & ALIGN_RIGHT)
+					unit.offset.y = m_Size.y / 2 - 6;
+
+				else if (m_TextAlign & ALIGN_TOP || m_TextAlign & ALIGN_BOTTOM)
+					unit.offset.x = m_Size.x / 2 - length * 4 - 2;
+
+				else
+				{
+					unit.offset.x = m_Size.x / 2 - length * 4 - 2;
+					unit.offset.y = m_Size.y / 2 - 6;
+				}
 			}
+
+			if (m_TextAlign & ALIGN_LEFT)
+				unit.offset.x = 0;
+			else if (m_TextAlign & ALIGN_RIGHT)
+				unit.offset.x = m_Size.x - length * 8 - 2;
+			
+			if (m_TextAlign & ALIGN_TOP)
+				unit.offset.y = 0;
+			else if (m_TextAlign & ALIGN_BOTTOM)
+				unit.offset.y = m_Size.y - 10;
 
 			unit.offset += 2;
 		}

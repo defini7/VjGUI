@@ -4,3 +4,6 @@ Obj/
 Target/
 .vs
 *.sln
+Makefile
+*/Makefile
+.vscode

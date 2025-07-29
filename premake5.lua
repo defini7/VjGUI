@@ -1,6 +1,11 @@
 ---@diagnostic disable: undefined-global
 workspace "VjGui"
-    architecture "x64"
+    filter "system:windows or system:linux"
+        architecture "x64"
+
+    filter "system:macosx"
+        architecture "ARM64"
+        
     startproject "App"
 
     configurations

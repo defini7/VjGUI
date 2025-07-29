@@ -10,13 +10,13 @@ namespace def
 	namespace gui
 	{
 //! START DECLARATION
-		enum class Align
+		enum Align
 		{
-			LEFT,
-			CENTRE,
-			RIGHT,
-			TOP,
-			BOTTOM
+			ALIGN_LEFT = 1 << 0,
+			ALIGN_CENTRE = 1 << 1,
+			ALIGN_RIGHT = 1 << 2,
+			ALIGN_TOP = 1 << 3,
+			ALIGN_BOTTOM = 1 << 4
 		};
 
 		struct Colour
@@ -420,7 +420,7 @@ namespace def
 			return v1.x != v2.x || v1.y != v2.y;
 		}
 
-		bool IsPointInRect(const Vector2i& point, const Vector2i& rect_pos, const Vector2i& rect_size)
+		inline bool IsPointInRect(const Vector2i& point, const Vector2i& rect_pos, const Vector2i& rect_size)
 		{
 			return point >= rect_pos && point < rect_pos + rect_size;
 		}

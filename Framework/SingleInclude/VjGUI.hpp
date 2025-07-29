@@ -407,7 +407,7 @@ namespace def::gui
 	protected:
 		std::string m_Text;
 		Vector2i m_CharsSize;
-		Align m_TextAlign = Align::LEFT;
+		int m_TextAlign = ALIGN_LEFT;
 
 		struct TextUnit
 		{

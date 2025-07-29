@@ -7,7 +7,7 @@
 
 #include "Platform.hpp"
 #include "Theme.hpp"
-#include "Eventhandler.hpp"
+#include "EventHandler.hpp"
 #include "Component.hpp"
 
 namespace def::gui
